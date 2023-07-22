@@ -1,2 +1,2 @@
 # HousePurchase
-Plugin Minecraft Bukkit - Create, Sold, Buy or Rent a house !
+Minecraft Plugin Bukkit - Create, Sold, Buy or Rent a house !
