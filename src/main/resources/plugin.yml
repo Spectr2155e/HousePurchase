@@ -1,0 +1,3 @@
+name: HousePurchase
+version: '${project.version}'
+main: fr.spectr2155e.housepurchase.HousePurchase
