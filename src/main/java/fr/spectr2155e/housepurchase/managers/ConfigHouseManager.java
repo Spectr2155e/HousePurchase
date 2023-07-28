@@ -1,6 +1,7 @@
 package fr.spectr2155e.housepurchase.managers;
 
 import fr.spectr2155e.housepurchase.HousePurchase;
+import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import org.bukkit.Location;
@@ -34,6 +35,16 @@ public class ConfigHouseManager {
         Houses.houses.put(id, new Houses(id, Utils.getLocationToJSON(location), false, null, false, null, false, null, priceOfBuy, priceOfLease, true));
     }
 
+    public static void createRegion(int id, Location loc1, Location loc2, String name){
+        checkDir();
+        FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
+        file.set("region.id", id);
+        file.set("region.loc1", loc1);
+        file.set("region.loc2", loc2);
+        file.set("region.name", name);
+        saveConfigIdFile(file, id);
+    }
+
     public static void initHouses(){
         for(Integer id : getListOfHouses()){
             FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
@@ -48,6 +59,18 @@ public class ConfigHouseManager {
                     file.getInt("house.priceOfBuy"),
                     file.getInt("house.priceOfLease"),
                     true));
+        }
+    }
+
+    public static void initRegions(){
+        for (Integer id : getListOfHouses()){
+            FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
+            if(file.get("region.id") != null){
+                HouseRegion.regions.put(id, new HouseRegion(id,
+                        (Location) file.get("region.loc1"),
+                        (Location) file.get("region.loc2"),
+                        file.getString("region.name")));
+            }
         }
     }
 

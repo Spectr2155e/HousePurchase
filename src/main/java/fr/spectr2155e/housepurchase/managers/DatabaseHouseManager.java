@@ -1,5 +1,6 @@
 package fr.spectr2155e.housepurchase.managers;
 
+import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
@@ -48,6 +49,33 @@ public class DatabaseHouseManager {
                         resultSet.getInt("PRICE_OF_LEASE"),
                         true));
             }
+        } catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public static void initRegions(){
+        final String sqlRequest = "SELECT ID, LOC1, LOC2, NAME FROM house_regions";
+        try {
+            final Connection connection = DatabaseManager.getHouseConnection().getConnection();
+            final Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlRequest);
+            while(resultSet.next()){
+                HouseRegion.regions.put(resultSet.getInt("ID"), new HouseRegion(resultSet.getInt("ID"),
+                        Utils.getJSONToLocation(resultSet.getString("LOC1")),
+                        Utils.getJSONToLocation(resultSet.getString("LOC2")),
+                        resultSet.getString("NAME")));
+            }
+        } catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public static void createRegion(int id, Location loc1, Location loc2, String name){
+        try {
+            final Connection connection = DatabaseManager.getHouseConnection().getConnection();
+            final PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO house_regions VALUES(?, ?, ?, ?)");
+            preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, Utils.getLocationToJSON(loc1));
+            preparedStatement.setString(3, Utils.getLocationToJSON(loc2));
+            preparedStatement.setString(4, name);
+            preparedStatement.execute();
         } catch (SQLException e) {throw new RuntimeException(e);}
     }
 }
