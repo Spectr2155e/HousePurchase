@@ -8,6 +8,7 @@ import fr.spectr2155e.housepurchase.objects.managers.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
@@ -33,6 +34,7 @@ public final class HousePurchase extends JavaPlugin {
         listenerManager.initListeners();
         commandsManager.initCommands();
         databaseManager = new DatabaseManager();
+        initAllTables();
         Houses.initHouses();
         HouseRegion.initRegions();
         LeaseHouse.initTimer();
@@ -41,5 +43,13 @@ public final class HousePurchase extends JavaPlugin {
     @Override
     public void onDisable() {
         databaseManager.close();
+    }
+
+    private void initAllTables(){
+        try {
+            getDatabaseManager().initTables();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
