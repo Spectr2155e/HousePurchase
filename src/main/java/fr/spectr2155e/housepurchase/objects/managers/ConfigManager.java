@@ -9,10 +9,11 @@ public class ConfigManager {
 
     public void initConfig(){
         HousePurchase.instance.getConfig().addDefault("database.host", "localhost");
-        HousePurchase.instance.getConfig().addDefault("database.user", "everloremc");
-        HousePurchase.instance.getConfig().addDefault("database.password", "&741630rp&");
-        HousePurchase.instance.getConfig().addDefault("database.dbName", "everlorerp");
+        HousePurchase.instance.getConfig().addDefault("database.user", "spectr2155e");
+        HousePurchase.instance.getConfig().addDefault("database.password", "&741630&");
+        HousePurchase.instance.getConfig().addDefault("database.dbName", "minecraft");
         HousePurchase.instance.getConfig().addDefault("database.port", 3306);
+        HousePurchase.instance.getConfig().addDefault("config.methodOfStorage", "file");
         HousePurchase.instance.getConfig().options().copyDefaults(true);
         HousePurchase.instance.saveConfig();
     }
