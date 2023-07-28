@@ -84,9 +84,9 @@ public class ConfigHouseManager {
         YamlConfiguration.loadConfiguration(getIdFile("list")).set("list", list);
     }
 
-    private static File getIdFile(int id){return new File(houseFolder, id + ".yml");}
+    public static File getIdFile(int id){return new File(houseFolder, id + ".yml");}
 
-    private static File getIdFile(String str){return new File(houseFolder, str + ".yml");}
+    public static File getIdFile(String str){return new File(houseFolder, str + ".yml");}
 
     private static void saveConfigIdFile(FileConfiguration file, int id){
         try {file.save(getIdFile(id));}

@@ -36,8 +36,6 @@ public final class HousePurchase extends JavaPlugin {
         listenerManager.initListeners();
         commandsManager.initCommands();
         initMethodOfStorage();
-        databaseManager = new DatabaseManager();
-        initAllTables();
         Houses.initHouses();
         HouseRegion.initRegions();
         LeaseHouse.initTimer();
@@ -54,11 +52,15 @@ public final class HousePurchase extends JavaPlugin {
     }
     private void initMethodOfStorage(){
         String configMethodOfStorage = getConfig().getString("config.methodOfStorage");
-        if(!configMethodOfStorage.equals("mysql") && !configMethodOfStorage.equals("file")){
+        if(!configMethodOfStorage.equals("database") && !configMethodOfStorage.equals("file")){
             System.out.println("§4Erreur de l'initialisation de la méthode de stockage, veillez à bien avoir préciser file ou mysql dans la config du plugin.");
             getServer().shutdown();
             return;
         }
         methodOfStorage = configMethodOfStorage;
+        if(methodOfStorage.equals("database")) {
+            databaseManager = new DatabaseManager();
+            initAllTables();
+        }
     }
 }
