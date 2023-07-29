@@ -80,4 +80,17 @@ public class HouseRegion {
                 break;
         }
     }
+
+    // Suppression de la rgion par l'id
+    public static void removeRegion(int id){
+        if(regions.containsKey(id)){regions.remove(id);}
+        switch (HousePurchase.methodOfStorage){
+            case "database":
+                DatabaseHouseManager.removeRegion(id);
+                break;
+            case "file":
+                ConfigHouseManager.removeRegion(id);
+                break;
+        }
+    }
 }

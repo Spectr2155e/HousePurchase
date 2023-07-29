@@ -3,6 +3,7 @@ package fr.spectr2155e.housepurchase.managers;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
+import fr.spectr2155e.housepurchase.objects.database.Query;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import org.bukkit.Location;
 
@@ -77,5 +78,9 @@ public class DatabaseHouseManager {
             preparedStatement.setString(4, name);
             preparedStatement.execute();
         } catch (SQLException e) {throw new RuntimeException(e);}
+    }
+
+    public static void removeRegion(int id){
+        Query.requestUpdate("DELETE FROM house_regions WHERE ID = "+id);
     }
 }

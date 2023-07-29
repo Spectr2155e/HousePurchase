@@ -31,6 +31,7 @@ public class ConfigHouseManager {
         file.set("house.leaseDate", null);
         file.set("house.priceOfBuy", priceOfBuy);
         file.set("house.priceOfLease", priceOfLease);
+        addIdToList(id);
         saveConfigIdFile(file, id);
         Houses.houses.put(id, new Houses(id, Utils.getLocationToJSON(location), false, null, false, null, false, null, priceOfBuy, priceOfLease, true));
     }
@@ -45,7 +46,15 @@ public class ConfigHouseManager {
         saveConfigIdFile(file, id);
     }
 
+    public static void removeRegion(int id){
+        checkDir();
+        FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
+        file.set("region", null);
+        saveConfigIdFile(file, id);
+    }
+
     public static void initHouses(){
+        if(getListOfHouses() == null) return;
         for(Integer id : getListOfHouses()){
             FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
             Houses.houses.put(id, new Houses(id,
@@ -63,6 +72,7 @@ public class ConfigHouseManager {
     }
 
     public static void initRegions(){
+        if(getListOfHouses() == null) return;
         for (Integer id : getListOfHouses()){
             FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
             if(file.get("region.id") != null){
@@ -76,6 +86,7 @@ public class ConfigHouseManager {
 
     public static void removeHouse(int id){
         removeIdFile(id);
+        removeIdToList(id);
     }
 
     private static void checkDir(){
@@ -111,8 +122,38 @@ public class ConfigHouseManager {
 
     public static File getIdFile(String str){return new File(houseFolder, str + ".yml");}
 
+    private static void addIdToList(int id){
+        FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile("list"));
+        List<Integer> list = new ArrayList<>();
+        if(file.get("list") != null){
+            list = getListOfHouses();
+            list.add(id);
+            file.set("list", list);
+            saveConfigIdFile(file, "list");
+            return;
+        }
+        list.add(id);
+        file.set("list", list);
+        saveConfigIdFile(file, "list");
+    }
+
+    private static void removeIdToList(int id){
+        FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile("list"));
+        if(file.get("list") != null){
+            List<Integer> list = getListOfHouses();
+            list.remove(id);
+            file.set("list", list);
+            saveConfigIdFile(file, "list");
+        }
+    }
+
     private static void saveConfigIdFile(FileConfiguration file, int id){
         try {file.save(getIdFile(id));}
+        catch (IOException e) {e.printStackTrace();}
+    }
+
+    private static void saveConfigIdFile(FileConfiguration file, String str){
+        try {file.save(getIdFile(str));}
         catch (IOException e) {e.printStackTrace();}
     }
 }
