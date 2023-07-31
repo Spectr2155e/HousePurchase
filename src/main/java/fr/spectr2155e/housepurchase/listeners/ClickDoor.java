@@ -19,7 +19,9 @@ public class ClickDoor implements Listener {
         if (e.getClickedBlock().getType() == null) return;
         if (e.getClickedBlock().getType().equals(Material.WOODEN_DOOR)) {
             Location location = e.getClickedBlock().getLocation();
-            if(HousesManager.checkHouse(e.getClickedBlock().getLocation())){location.setY(location.getY()+1);}
+            if(HousesManager.checkHouse(e.getClickedBlock().getLocation())){
+                location.setY(location.getY()+1);
+            }
             if(!HousesManager.isHouseExist(location)) {
                 if(!e.getPlayer().isSneaking()) return;
                 if(!e.getPlayer().hasPermission("house.createHouse")) {return;}

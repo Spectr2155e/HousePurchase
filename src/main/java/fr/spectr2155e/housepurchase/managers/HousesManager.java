@@ -20,6 +20,14 @@ public class HousesManager {
         return bool;
     }
 
+    public static boolean isHouseExist(Integer id){
+        boolean bool = false;
+        for (Map.Entry<Integer, Houses> entry : Houses.houses.entrySet()) {
+            if (entry.getValue().getId() == id) {bool = true;}
+        }
+        return bool;
+    }
+
     public static void buyHouse(Player player, int id){
         Houses.houses.get(id).setOwner(player.getName());
         Houses.houses.get(id).setOwned(true);
@@ -39,6 +47,7 @@ public class HousesManager {
         boolean bool = false;
         location.setY(location.getY()+1);
         for (Map.Entry<Integer, Houses> entry : Houses.houses.entrySet()) {
+            System.out.println(entry);
             if (entry.getValue().getLocation().equals(Utils.getLocationToJSON(location))) {bool = true;}
         }
         return bool;

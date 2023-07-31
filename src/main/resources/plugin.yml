@@ -4,4 +4,6 @@ main: fr.spectr2155e.housepurchase.HousePurchase
 depend:
   - Economy
 commands:
-  test:
+  housepurchase:
+    aliases: house, houses
+    description: Commandes de HousePurchase

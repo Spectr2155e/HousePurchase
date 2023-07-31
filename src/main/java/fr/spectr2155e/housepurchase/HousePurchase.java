@@ -3,6 +3,7 @@ package fr.spectr2155e.housepurchase;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.classes.LeaseHouse;
+import fr.spectr2155e.housepurchase.commands.CommandManager;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.managers.*;
 import org.bukkit.Color;
@@ -39,11 +40,15 @@ public final class HousePurchase extends JavaPlugin {
         Houses.initHouses();
         HouseRegion.initRegions();
         LeaseHouse.initTimer();
+
+        getCommand("housepurchase").setExecutor(new CommandManager());
+        getCommand("housepurchase").setTabCompleter(new CommandManager());
     }
 
     @Override
     public void onDisable() {
-        databaseManager.close();
+        if(methodOfStorage.equals("database"))
+            getDatabaseManager().close();
     }
 
     private void initAllTables(){

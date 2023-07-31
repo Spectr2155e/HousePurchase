@@ -70,6 +70,7 @@ public class LeaseHouse {
     public static void initTimer(){
         Bukkit.getScheduler().scheduleAsyncRepeatingTask(HousePurchase.instance, () -> {
             for (Map.Entry<Integer, Houses> entry : Houses.houses.entrySet()) {
+                if(entry.getValue().getLeaseDate() == null) return;
                 if (entry.getValue().getLeaseDate().getTime() <= System.currentTimeMillis()) {HousesManager.unLeaseHouse(entry.getKey());}
             }
         }, 0L, 20L);

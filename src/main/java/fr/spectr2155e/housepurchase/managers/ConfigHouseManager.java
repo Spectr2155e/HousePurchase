@@ -22,7 +22,7 @@ public class ConfigHouseManager {
         createIdFile(id);
         FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
         file.set("house.id", id);
-        file.set("house.location", location);
+        file.set("house.location", Utils.getLocationToJSON(location));
         file.set("house.isOwned", false);
         file.set("house.owner", null);
         file.set("house.isBuy", false);
@@ -40,8 +40,8 @@ public class ConfigHouseManager {
         checkDir();
         FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
         file.set("region.id", id);
-        file.set("region.loc1", loc1);
-        file.set("region.loc2", loc2);
+        file.set("region.loc1", Utils.getLocationToJSON(loc1));
+        file.set("region.loc2", Utils.getLocationToJSON(loc2));
         file.set("region.name", name);
         saveConfigIdFile(file, id);
     }
@@ -58,7 +58,7 @@ public class ConfigHouseManager {
         for(Integer id : getListOfHouses()){
             FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
             Houses.houses.put(id, new Houses(id,
-                    Utils.getLocationToJSON((Location) file.get("house.location")),
+                    file.getString("house.location"),
                     file.getBoolean("isOwned"),
                     file.getString("house.owner"),
                     file.getBoolean("house.isBuy"),
@@ -77,17 +77,14 @@ public class ConfigHouseManager {
             FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
             if(file.get("region.id") != null){
                 HouseRegion.regions.put(id, new HouseRegion(id,
-                        (Location) file.get("region.loc1"),
-                        (Location) file.get("region.loc2"),
+                        Utils.getJSONToLocation(file.getString("region.loc1")),
+                        Utils.getJSONToLocation(file.getString("region.loc2")),
                         file.getString("region.name")));
             }
         }
     }
 
-    public static void removeHouse(int id){
-        removeIdFile(id);
-        removeIdToList(id);
-    }
+    public static void removeHouse(int id){removeIdFile(id);}
 
     private static void checkDir(){
         if(!houseFolder.exists()){
@@ -112,10 +109,13 @@ public class ConfigHouseManager {
 
     private static void removeIdFile(int id){
         File idFile = new File(houseFolder, id + ".yml");
+        FileConfiguration listFile = YamlConfiguration.loadConfiguration(getIdFile("list"));
         if(idFile.exists()){idFile.delete();}
         List<Integer> list = getListOfHouses();
-        list.remove(id);
-        YamlConfiguration.loadConfiguration(getIdFile("list")).set("list", list);
+        list.remove((Integer) id);
+        if(!list.isEmpty()) {listFile.set("list", list);}
+        else {listFile.set("list", null);}
+        saveConfigIdFile(listFile, "list");
     }
 
     public static File getIdFile(int id){return new File(houseFolder, id + ".yml");}
@@ -135,16 +135,6 @@ public class ConfigHouseManager {
         list.add(id);
         file.set("list", list);
         saveConfigIdFile(file, "list");
-    }
-
-    private static void removeIdToList(int id){
-        FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile("list"));
-        if(file.get("list") != null){
-            List<Integer> list = getListOfHouses();
-            list.remove(id);
-            file.set("list", list);
-            saveConfigIdFile(file, "list");
-        }
     }
 
     private static void saveConfigIdFile(FileConfiguration file, int id){

@@ -16,7 +16,6 @@ import java.util.Map;
 public class Houses {
 
     public static HashMap<Integer, Houses> houses = new HashMap<>();
-
     private int id;
     private String location;
     private boolean isOwned;
@@ -86,6 +85,8 @@ public class Houses {
         }
         return idOfHouse;
     }
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
     public String getLocation() {return location;}
     public void setLocation(String newLocation, String location) {
         this.location = location;
