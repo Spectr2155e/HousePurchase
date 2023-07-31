@@ -10,5 +10,7 @@ public abstract class SubCommand {
 
     public abstract String getDescription();
 
+    public abstract String getUsage();
+
     public abstract void perform(Player player, String[] args);
 }

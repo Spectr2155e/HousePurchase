@@ -8,7 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class TeleportHouse extends SubCommand {
+public class TeleportCommand extends SubCommand {
     @Override
     public String getName() {
         return "teleport";
@@ -25,14 +25,19 @@ public class TeleportHouse extends SubCommand {
     }
 
     @Override
+    public String getUsage() {
+        return "/housepurchase teleport <id>";
+    }
+
+    @Override
     public void perform(Player player, String[] args) {
-        if(!(args.length >= 2)){
+        if(!(args.length == 2)){
             player.sendMessage("§8§l(§4§lERREUR§8§l) §cVeuillez utiliser la commande /housepurchase teleport <id>.");
             return;
         }
-        int id = Integer.parseInt(args[1]);
+        final int id = Integer.parseInt(args[1]);
         if(!HousesManager.isHouseExist(id)){
-            player.sendMessage("§8§l(§4§lERREUR§8§l) §cLa maison comportant cet id n'est pas trouvable.");
+            player.sendMessage("§8§l(§4§lERREUR§8§l) §cLa maison comportant cet id est introuvable.");
             return;
         }
         Location location = Utils.getJSONToLocation(Houses.houses.get(id).getLocation());
