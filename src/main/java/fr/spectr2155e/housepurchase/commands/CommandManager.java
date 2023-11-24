@@ -1,6 +1,7 @@
 package fr.spectr2155e.housepurchase.commands;
 
 import fr.spectr2155e.housepurchase.commands.subcommands.*;
+import fr.spectr2155e.housepurchase.managers.ConfigHouseManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -50,10 +51,29 @@ public class CommandManager implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if(command.getName().equals("houses") || command.getName().equals("house") || command.getName().equals("housepurchase")) {
             List<String> completionResult = new ArrayList<>();
-            for (SubCommand subCommand : getSubCommands()) {
-                completionResult.add(subCommand.getName());
+            List<String> result = new ArrayList<>();
+            if(args.length == 1) {
+                for (SubCommand subCommand : getSubCommands()) {
+                    completionResult.add(subCommand.getName());
+                }
+                for (String str : completionResult) {
+                    if (str.toLowerCase().startsWith(args[0].toLowerCase())) {
+                        result.add(str);
+                    }
+                }
+            } else if(args.length >= 2){
+                if(args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("removeHouse") || args[0].equalsIgnoreCase("removeRegion") || args[0].equalsIgnoreCase("teleport") || (args[0].equalsIgnoreCase("setBuyprice") && args.length >= 3) || (args[0].equalsIgnoreCase("setLeasePrice") && args.length >= 3)){
+                    for(Integer id : ConfigHouseManager.getListOfHouses()){
+                        completionResult.add(String.valueOf(id));
+                    }
+                    for (String str : completionResult) {
+                        if (str.toLowerCase().startsWith(args[1].toLowerCase()) || str.toLowerCase().startsWith(args[2].toLowerCase())) {
+                            result.add(str);
+                        }
+                    }
+                }
             }
-            return completionResult;
+            return result;
         }
         return null;
     }

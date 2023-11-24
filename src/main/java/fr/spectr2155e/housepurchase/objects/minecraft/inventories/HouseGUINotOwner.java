@@ -81,6 +81,7 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lSupprimer la maison")){
             Houses.removeHouse(BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId());
+            HouseRegion.removeRegion(BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId());
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez supprimé la maison.");
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();

@@ -94,7 +94,7 @@ public class ConfigHouseManager {
         }
     }
 
-    private static List<Integer> getListOfHouses(){
+    public static List<Integer> getListOfHouses(){
         FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile("list"));
         return (List<Integer>) file.getList("list");
     }

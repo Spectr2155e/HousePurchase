@@ -1,10 +1,14 @@
 package fr.spectr2155e.housepurchase.managers;
 
+import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.database.Query;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
+import fr.spectr2155e.housepurchase.region.RegionMaker;
+import fr.spectr2155e.housepurchase.region.manager.RegionManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.sql.*;
@@ -64,6 +68,7 @@ public class DatabaseHouseManager {
                         Utils.getJSONToLocation(resultSet.getString("LOC1")),
                         Utils.getJSONToLocation(resultSet.getString("LOC2")),
                         resultSet.getString("NAME")));
+                RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, new Location(Bukkit.getWorld("world"), Utils.getJSONToLocation(resultSet.getString("LOC1")).getX(), Utils.getJSONToLocation(resultSet.getString("LOC1")).getY(), Utils.getJSONToLocation(resultSet.getString("LOC1")).getZ()), new Location(Bukkit.getWorld("world"), Utils.getJSONToLocation(resultSet.getString("LOC2")).getX(), Utils.getJSONToLocation(resultSet.getString("LOC2")).getY(), Utils.getJSONToLocation(resultSet.getString("LOC2")).getZ()), resultSet.getString("NAME"), false);
             }
         } catch (SQLException e) {throw new RuntimeException(e);}
     }

@@ -2,6 +2,7 @@ package fr.spectr2155e.housepurchase.objects.minecraft.inventories;
 
 import fr.spectr2155e.economy.classes.EconomyClass;
 import fr.spectr2155e.housepurchase.HousePurchase;
+import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.classes.LeaseHouse;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
@@ -82,6 +83,7 @@ public class HouseGUILeaseSelector implements CommonInventory, Listener {
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lSupprimer la maison")){
             Houses.removeHouse(LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getId());
+            HouseRegion.removeRegion(LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getId());
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez supprimé la maison.");
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();

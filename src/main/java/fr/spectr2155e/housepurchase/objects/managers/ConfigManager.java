@@ -8,12 +8,12 @@ import java.io.IOException;
 public class ConfigManager {
 
     public void initConfig(){
-        HousePurchase.instance.getConfig().addDefault("database.host", "localhost");
-        HousePurchase.instance.getConfig().addDefault("database.user", "spectr2155e");
-        HousePurchase.instance.getConfig().addDefault("database.password", "&741630&");
-        HousePurchase.instance.getConfig().addDefault("database.dbName", "minecraft");
+        HousePurchase.instance.getConfig().addDefault("database.host", "sql2.minestrator.com");
+        HousePurchase.instance.getConfig().addDefault("database.user", "shinobilegacy");
+        HousePurchase.instance.getConfig().addDefault("database.password", "r8aoZoals");
+        HousePurchase.instance.getConfig().addDefault("database.dbName", "shinobilegacy");
         HousePurchase.instance.getConfig().addDefault("database.port", 3306);
-        HousePurchase.instance.getConfig().addDefault("config.methodOfStorage", "file");
+        HousePurchase.instance.getConfig().addDefault("config.methodOfStorage", "database");
         HousePurchase.instance.getConfig().options().copyDefaults(true);
         HousePurchase.instance.saveConfig();
     }

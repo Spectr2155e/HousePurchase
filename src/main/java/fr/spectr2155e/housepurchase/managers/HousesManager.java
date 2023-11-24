@@ -47,7 +47,6 @@ public class HousesManager {
         boolean bool = false;
         location.setY(location.getY()+1);
         for (Map.Entry<Integer, Houses> entry : Houses.houses.entrySet()) {
-            System.out.println(entry);
             if (entry.getValue().getLocation().equals(Utils.getLocationToJSON(location))) {bool = true;}
         }
         return bool;

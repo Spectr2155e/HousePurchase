@@ -1,15 +1,22 @@
 package fr.spectr2155e.housepurchase.classes;
 
+
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.managers.ConfigHouseManager;
 import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
+import fr.spectr2155e.housepurchase.region.RegionMaker;
+import fr.spectr2155e.housepurchase.region.tools.Region;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 
 public class HouseRegion {
@@ -69,8 +76,8 @@ public class HouseRegion {
 
     // Création de la region pour un id de porte
     public static void createRegion(int id, Location loc1, Location loc2, String name) {
-        //todo RegionMaker Plugin
         regions.put(id, new HouseRegion(id, loc1, loc2, name));
+        RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, new Location(Bukkit.getWorld("world"), loc1.getX(), loc1.getY(), loc1.getZ()), new Location(Bukkit.getWorld("world"), loc2.getX(), loc2.getY(), loc2.getZ()), name, false);
         switch (HousePurchase.methodOfStorage) {
             case "file":
                 ConfigHouseManager.createRegion(id, loc1, loc2, name);
@@ -83,6 +90,7 @@ public class HouseRegion {
 
     // Suppression de la rgion par l'id
     public static void removeRegion(int id){
+        RegionMaker.getInstance().getRegionManager().unregisterRegion(HousePurchase.instance, getRegion(id));
         if(regions.containsKey(id)){regions.remove(id);}
         switch (HousePurchase.methodOfStorage){
             case "database":
@@ -92,5 +100,25 @@ public class HouseRegion {
                 ConfigHouseManager.removeRegion(id);
                 break;
         }
+    }
+
+    private static Region getRegion(int id){
+        return RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, regions.get(id).loc1, regions.get(id).loc2, regions.get(id).name, false);
+    }
+
+    public static Houses getHouse(Region region){
+        Location[] locations = region.getLocs();
+        final String sqlRequest = "SELECT ID, LOC1, LOC2, NAME FROM house_regions";
+        try {
+            final Connection connection = DatabaseManager.getHouseConnection().getConnection();
+            final Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlRequest);
+            while(resultSet.next()){
+                if(resultSet.getString("LOC1").equals(Utils.getLocationToJSON(locations[0]))){
+                    return Houses.houses.get(resultSet.getInt("ID"));
+                }
+            }
+        } catch (SQLException e) {throw new RuntimeException(e);}
+        return null;
     }
 }

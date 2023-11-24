@@ -1,6 +1,7 @@
 package fr.spectr2155e.housepurchase.objects.minecraft.inventories;
 
 import fr.spectr2155e.housepurchase.HousePurchase;
+import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -47,7 +48,7 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
         inventory.setContents(HousePurchase.inventories.get("HouseGUIOwnerBuy"));
         if(player.hasPermission("houses.remove")) inventory.setItem(44, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la maison", 0, "§7Cliquez afin de supprimer cette maison."));
         inventory.setItem(20, HousePurchase.utils.getItem(Material.SLIME_BALL, "§a§lPrix de la maison", 0, "§7La maison coûte §a"+ HousePurchase.numberFormat.format(Houses.houses.get(Houses.getId(location)).getPriceOfBuy())+"€"));
-        inventory.setItem(24, HousePurchase.utils.getItem(Material.EMPTY_MAP, "§7§lQuartier", 0)); //todo Quartier
+        inventory.setItem(24, HousePurchase.utils.getItem(Material.EMPTY_MAP, "§7§lQuartier", 0)); // Quartier
         inventory.setItem(40, HousePurchase.utils.getItem(Material.NAME_TAG, "§fID: §e"+Houses.getId(location), 0));
 
         locationOfDoor.put(player, location);
@@ -86,6 +87,7 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lSupprimer la maison")){
             Houses.removeHouse(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked())));
+            HouseRegion.removeRegion(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked())));
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez supprimé la maison.");
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();

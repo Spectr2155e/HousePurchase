@@ -26,10 +26,11 @@ public class HelpCommand extends SubCommand {
 
     @Override
     public void perform(Player player, String[] args) {
-        if(args.length == 1){
+        if(args.length != 1){
             player.sendMessage("§8§l(§4§lERREUR§8§l) §cVeuillez utiliser la commande /housepurchase help.");
             return;
         }
+
         // Information
         final String descInfo = new InformationCommand().getDescription();
         final String usageInfo = new InformationCommand().getUsage();
@@ -54,6 +55,7 @@ public class HelpCommand extends SubCommand {
         final String descTeleport = new TeleportCommand().getDescription();
         final String usageTeleport = new TeleportCommand().getUsage();
 
+        // Message
         player.sendMessage(usageInfo + ": " + descInfo);
         player.sendMessage(usageRemoveHouse + ": " + descRemoveHouse);
         player.sendMessage(usageRemoveRegion + ": " + descRemoveRegion);
