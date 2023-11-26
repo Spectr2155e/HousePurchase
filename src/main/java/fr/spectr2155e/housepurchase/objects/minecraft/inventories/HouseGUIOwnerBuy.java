@@ -126,6 +126,7 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
                 Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).setLocked(false);
                 e.setCancelled(true);
                 e.getWhoClicked().closeInventory();
+                return;
             }
             if(!DatabaseHouseManager.getArrayFromJson(Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getTrustedPlayers()).contains(e.getWhoClicked().getName()) && !Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getOwner().equals(e.getWhoClicked().getName())) {
                 e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous n'avez pas la permission d'ouvrir ou de fermer cette maison.");

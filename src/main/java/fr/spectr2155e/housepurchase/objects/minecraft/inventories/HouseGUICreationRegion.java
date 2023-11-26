@@ -1,6 +1,7 @@
 package fr.spectr2155e.housepurchase.objects.minecraft.inventories;
 
 import fr.spectr2155e.housepurchase.HousePurchase;
+import fr.spectr2155e.housepurchase.classes.BuyHouse;
 import fr.spectr2155e.housepurchase.classes.CreationRegion;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
