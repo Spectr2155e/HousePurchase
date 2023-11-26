@@ -57,5 +57,9 @@ public class HousesManager {
         Houses.houses.get(id).setOwned(false);
         Houses.houses.get(id).setLease(false);
         Houses.houses.get(id).setLeaseDate(null);
+        Houses.houses.get(id).setTrustedPlayers(null);
+        Houses.houses.get(id).setLocked(false);
+        Houses.houses.get(id).setBuy(false);
+        Houses.houses.get(id).setDateOfBuy(null);
     }
 }

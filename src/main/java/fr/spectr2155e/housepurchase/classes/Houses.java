@@ -3,6 +3,7 @@ package fr.spectr2155e.housepurchase.classes;
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.managers.ConfigHouseManager;
 import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
+import fr.spectr2155e.housepurchase.managers.HousesManager;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.database.Query;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
@@ -10,10 +11,14 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Houses {
+
+    public static ArrayList<Integer> housesList = new ArrayList<>();
 
     public static HashMap<Integer, Houses> houses = new HashMap<>();
     private int id;
@@ -27,8 +32,9 @@ public class Houses {
     private int priceOfBuy;
     private int priceOfLease;
     private boolean locked;
+    private String trustedPlayers;
 
-    public Houses(int id, String location, boolean isOwned, String owner, boolean isBuy, Timestamp dateOfBuy, boolean isLease, Timestamp leaseDate, int priceOfBuy, int priceOfLease, boolean locked) {
+    public Houses(int id, String location, boolean isOwned, String owner, boolean isBuy, Timestamp dateOfBuy, boolean isLease, Timestamp leaseDate, int priceOfBuy, int priceOfLease, boolean locked, String trustedPlayers) {
         this.id = id;
         this.location = location;
         this.isOwned = isOwned;
@@ -40,6 +46,7 @@ public class Houses {
         this.priceOfBuy = priceOfBuy;
         this.priceOfLease = priceOfLease;
         this.locked = locked;
+        this.trustedPlayers = trustedPlayers;
     }
 
     public static void initHouses(){
@@ -234,6 +241,36 @@ public class Houses {
     }
     public void setLocked(boolean locked) {
         this.locked = locked;
+    }
+    public String getTrustedPlayers() {
+        return trustedPlayers;
+    }
+    public void setTrustedPlayers(String trustedPlayers) {
+        switch (HousePurchase.methodOfStorage){
+            case "file":
+                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.trustedPlayers", trustedPlayers);
+                break;
+            case "database":
+                try {
+                    final Connection connection = DatabaseManager.getHouseConnection().getConnection();
+                    PreparedStatement preparedStatement = connection.prepareStatement("UPDATE house_purchase SET TRUSTED_PLAYERS = ? WHERE ID = ?");
+                    preparedStatement.setString(1, trustedPlayers);
+                    preparedStatement.setInt(2, this.id);
+                    preparedStatement.execute();
+                } catch (SQLException e) {throw new RuntimeException(e);}
+                break;
+        }
+        this.trustedPlayers = trustedPlayers;
+    }
+
+    public void removeTrustedPlayer(String trustedPlayers){
+        List<String> list = DatabaseHouseManager.getArrayFromJson(getTrustedPlayers());
+        list.remove(trustedPlayers);
+        if(list.isEmpty()){
+            setTrustedPlayers(null);
+        } else {
+            setTrustedPlayers(DatabaseHouseManager.getJsonFromArray(list));
+        }
     }
 
 }

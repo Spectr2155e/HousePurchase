@@ -1,6 +1,7 @@
 package fr.spectr2155e.housepurchase.objects.minecraft.inventories;
 
 import fr.spectr2155e.economy.classes.EconomyClass;
+import fr.spectr2155e.economy.managers.EconomyManager;
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.BuyHouse;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
@@ -45,7 +46,10 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
         if(player.hasPermission("houses.remove")) {
             inventory.setItem(44, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la maison", 0, "§7Cliquez afin de supprimer cette maison."));
             if(!HouseRegion.regions.containsKey(Houses.getId(location))) {inventory.setItem(35, HousePurchase.utils.getItem(Material.FEATHER, "§6§lCréer la region", 0, "§7Cliquez afin de créer la region", "§7de cette maison."));}
-            else {inventory.setItem(35, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la region", 0, "§7Cliquez afin de supprimer la region", "§7de cette maison."));}
+            else {
+                inventory.setItem(35, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la region", 0, "§7Cliquez afin de supprimer la region", "§7de cette maison."));
+                inventory.setItem(26, HousePurchase.utils.getItem(Material.FEATHER, "§6§lAjouter une region", 0, "§7Cliquez afin d'ajouter une region", "§7à cette maison."));
+            }
         }
         inventory.setItem(21, HousePurchase.utils.getItem(Material.SLIME_BALL, "§a§lAcheter la maison", 0, "§7En cliquant ici, vous deviendrez", "§7propriétaire de cette maison à vie", "",
                 "§7Prix: §a"+ HousePurchase.numberFormat.format(Houses.houses.get(Houses.getId(location)).getPriceOfBuy())+"€"));
@@ -71,6 +75,7 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
                 return;
             }
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §fVous avez acheté la maison §e"+BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId()+"§f, §aFélicitations §f!");
+            EconomyManager.removeBankMoney(e.getWhoClicked().getName(), String.valueOf(BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getPriceOfBuy()), null);
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
             HousesManager.buyHouse((Player) e.getWhoClicked(), BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId());
@@ -95,6 +100,11 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez supprimé la region de la maison.");
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
+        }
+        if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§6§lAjouter une region")){
+            new HouseGUICreationRegion().openInventoryWithLocation((Player) e.getWhoClicked(), BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getLocation());
+            HouseRegion.registerRegion((Player) e.getWhoClicked(), "name", null, HouseRegion.regions.get(BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId()).getName());
+            e.setCancelled(true);
         }
     }
 }

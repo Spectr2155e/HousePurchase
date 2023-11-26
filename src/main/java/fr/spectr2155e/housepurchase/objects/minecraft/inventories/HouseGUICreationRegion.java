@@ -117,11 +117,13 @@ public class HouseGUICreationRegion implements CommonInventory, Listener {
             HouseRegion.registerRegion(e.getPlayer(), "loc1", e.getBlock().getLocation(), null);
             loc1.remove(e.getPlayer());
             openInventoryWithLocation(e.getPlayer(), CreationRegion.creationRegionHashMap.get(e.getPlayer()).getLoc());
+            e.setCancelled(true);
         }
         if(loc2.contains(e.getPlayer())){
             HouseRegion.registerRegion(e.getPlayer(), "loc2", e.getBlock().getLocation(), null);
             loc2.remove(e.getPlayer());
             openInventoryWithLocation(e.getPlayer(), CreationRegion.creationRegionHashMap.get(e.getPlayer()).getLoc());
+            e.setCancelled(true);
         }
     }
 

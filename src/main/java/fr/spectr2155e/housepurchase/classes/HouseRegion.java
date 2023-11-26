@@ -7,6 +7,7 @@ import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import fr.spectr2155e.housepurchase.region.RegionMaker;
+import fr.spectr2155e.housepurchase.region.manager.RegionManager;
 import fr.spectr2155e.housepurchase.region.tools.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -77,7 +78,7 @@ public class HouseRegion {
     // Création de la region pour un id de porte
     public static void createRegion(int id, Location loc1, Location loc2, String name) {
         regions.put(id, new HouseRegion(id, loc1, loc2, name));
-        RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, new Location(Bukkit.getWorld("world"), loc1.getX(), loc1.getY(), loc1.getZ()), new Location(Bukkit.getWorld("world"), loc2.getX(), loc2.getY(), loc2.getZ()), name, false);
+        RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, new Location(Bukkit.getWorld("world"), loc1.getX(), loc1.getY(), loc1.getZ()), new Location(Bukkit.getWorld("world"), loc2.getX(), loc2.getY(), loc2.getZ()), name, true);
         switch (HousePurchase.methodOfStorage) {
             case "file":
                 ConfigHouseManager.createRegion(id, loc1, loc2, name);
@@ -90,9 +91,10 @@ public class HouseRegion {
 
     // Suppression de la rgion par l'id
     public static void removeRegion(int id){
-        RegionMaker.getInstance().getRegionManager().unregisterRegion(HousePurchase.instance, getRegion(id));
-        if(regions.containsKey(id)){regions.remove(id);}
-        switch (HousePurchase.methodOfStorage){
+        if(regions.get(id) == null) {return;}
+        RegionMaker.getInstance().getRegionManager().unregisterAllRegions(HousePurchase.instance, regions.get(id).getName());
+        while(regions.containsKey(id)) {regions.remove(id);}
+        switch (HousePurchase.methodOfStorage) {
             case "database":
                 DatabaseHouseManager.removeRegion(id);
                 break;
@@ -100,10 +102,6 @@ public class HouseRegion {
                 ConfigHouseManager.removeRegion(id);
                 break;
         }
-    }
-
-    private static Region getRegion(int id){
-        return RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, regions.get(id).loc1, regions.get(id).loc2, regions.get(id).name, false);
     }
 
     public static Houses getHouse(Region region){

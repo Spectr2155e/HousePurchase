@@ -1,7 +1,10 @@
 package fr.spectr2155e.housepurchase.commands;
 
+import fr.spectr2155e.housepurchase.HousePurchase;
+import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.commands.subcommands.*;
 import fr.spectr2155e.housepurchase.managers.ConfigHouseManager;
+import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -63,8 +66,18 @@ public class CommandManager implements CommandExecutor, TabCompleter {
                 }
             } else if(args.length >= 2){
                 if(args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("removeHouse") || args[0].equalsIgnoreCase("removeRegion") || args[0].equalsIgnoreCase("teleport") || (args[0].equalsIgnoreCase("setBuyprice") && args.length >= 3) || (args[0].equalsIgnoreCase("setLeasePrice") && args.length >= 3)){
-                    for(Integer id : ConfigHouseManager.getListOfHouses()){
-                        completionResult.add(String.valueOf(id));
+                    if(HousePurchase.methodOfStorage.equals("file")) {
+                        for (Integer id : ConfigHouseManager.getListOfHouses()) {
+                            completionResult.add(String.valueOf(id));
+                        }
+                    } else {
+                        for (Integer id : Houses.housesList) {
+                            if (id.toString().toLowerCase().startsWith(args[1].toLowerCase())) {
+                                completionResult.add(String.valueOf(id));
+                            } else {
+                                return null;
+                            }
+                        }
                     }
                     for (String str : completionResult) {
                         if (str.toLowerCase().startsWith(args[1].toLowerCase()) || str.toLowerCase().startsWith(args[2].toLowerCase())) {

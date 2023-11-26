@@ -56,11 +56,17 @@ public class InformationCommand extends SubCommand {
 
         // LeaseDate
         final String leaseDate;
-        if(house.isBuy()){ leaseDate = house.getLeaseDate().toString(); }
+        if(house.isLease()){ leaseDate = house.getLeaseDate().toString(); }
         else { leaseDate = "§cPas loué"; }
 
         final int priceOfBuy = house.getPriceOfBuy();
         final int priceOfLease = house.getPriceOfLease();
+        String friends = house.getTrustedPlayers();
+        if(friends == null){
+            friends = "§cPas d'ami";
+        } else {
+            friends = house.getTrustedPlayers();
+        }
 
         player.sendMessage("§7§lID: §b"+ id);
         player.sendMessage("§7§lPropriétaire: §e"+ owner);
@@ -68,5 +74,6 @@ public class InformationCommand extends SubCommand {
         player.sendMessage("§7§lDate de location: §3"+ leaseDate);
         player.sendMessage("§7§lPrix d'achat: §a"+ priceOfBuy);
         player.sendMessage("§7§lPrix de location: §a"+ priceOfLease);
+        player.sendMessage("§7§lAmis: §a"+ friends);
     }
 }

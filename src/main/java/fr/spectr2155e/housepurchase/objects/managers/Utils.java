@@ -6,8 +6,10 @@ import fr.spectr2155e.housepurchase.HousePurchase;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.json.simple.JSONObject;
 
 import java.sql.Timestamp;
@@ -51,6 +53,15 @@ public class Utils {
         it.setDurability((short) id);
         it.setItemMeta(it_meta);
         return it;
+    }
+    public ItemStack getPlayerHead(String player, String name, String... lore){
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+        SkullMeta meta = (SkullMeta) skull.getItemMeta();
+        meta.setOwningPlayer(Bukkit.getOfflinePlayer(player));
+        meta.setLore(Arrays.asList(lore));
+        meta.setDisplayName(name);
+        skull.setItemMeta(meta);
+        return skull;
     }
     public ItemStack getItema(Material item, String name, ArrayList lore, int id){
         ItemStack it = new ItemStack(item);
@@ -122,7 +133,7 @@ public class Utils {
     public static Timestamp addDays(Timestamp timestamp, int days){
         Calendar cal = Calendar.getInstance();
         cal.setTime(timestamp);
-        cal.add(Calendar.MINUTE, days);
+        cal.add(Calendar.HOUR, days*24);
         timestamp.setTime(cal.getTime().getTime());
         return timestamp;
     }

@@ -1,5 +1,6 @@
 package fr.spectr2155e.housepurchase.commands.subcommands;
 
+import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.commands.SubCommand;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
@@ -38,6 +39,7 @@ public class RemoveHouseCommand extends SubCommand {
             return;
         }
         Houses.removeHouse(id);
+        HouseRegion.removeRegion(id);
         player.sendMessage("§8§l(§6§lHousePurchase§8§l) §fLa maison sous l'id "+id+" a été supprimé.");
     }
 }

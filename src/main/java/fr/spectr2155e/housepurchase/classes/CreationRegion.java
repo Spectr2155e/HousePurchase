@@ -19,6 +19,7 @@ public class CreationRegion {
         this.loc2 = loc2;
         this.name = name;
     }
+
     public Location getLoc() {return loc;}
     public void setLoc(Location loc) {this.loc = loc;}
     public Location getLoc1() {return loc1;}

@@ -1,5 +1,6 @@
 package fr.spectr2155e.housepurchase.managers;
 
+import com.google.gson.Gson;
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
@@ -12,11 +13,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DatabaseHouseManager {
 
     public static void createHouse(int id, Location location, int priceOfBuy, int priceOfLease) {
-        final String sqlRequest = "INSERT INTO house_purchase VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        Houses.housesList.add(id);
+        final String sqlRequest = "INSERT INTO house_purchase VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             final Connection connection = DatabaseManager.getHouseConnection().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sqlRequest);
@@ -30,13 +35,14 @@ public class DatabaseHouseManager {
             preparedStatement.setTimestamp(8, null);
             preparedStatement.setInt(9, priceOfBuy);
             preparedStatement.setInt(10, priceOfLease);
+            preparedStatement.setString(11, null);
             preparedStatement.execute();
-            Houses.houses.put(id, new Houses(id, Utils.getLocationToJSON(location), false, null, false, null, false, null, priceOfBuy, priceOfLease, true));
+            Houses.houses.put(id, new Houses(id, Utils.getLocationToJSON(location), false, null, false, null, false, null, priceOfBuy, priceOfLease, true, null));
         } catch (SQLException e) {throw new RuntimeException(e);}
     }
 
     public static void initHouses(){
-        final String sqlRequest = "SELECT ID, LOCATION, IS_OWNED, OWNER, IS_BUY, DATE_OF_BUY, IS_LEASE, LEASE_DATE, PRICE_OF_BUY, PRICE_OF_LEASE FROM house_purchase";
+        final String sqlRequest = "SELECT ID, LOCATION, IS_OWNED, OWNER, IS_BUY, DATE_OF_BUY, IS_LEASE, LEASE_DATE, PRICE_OF_BUY, PRICE_OF_LEASE, TRUSTED_PLAYERS FROM house_purchase";
         try {
             final Connection connection = DatabaseManager.getHouseConnection().getConnection();
             final Statement statement = connection.createStatement();
@@ -52,7 +58,9 @@ public class DatabaseHouseManager {
                         resultSet.getTimestamp("LEASE_DATE"),
                         resultSet.getInt("PRICE_OF_BUY"),
                         resultSet.getInt("PRICE_OF_LEASE"),
-                        true));
+                        true,
+                        resultSet.getString("TRUSTED_PLAYERS")));
+                Houses.housesList.add(resultSet.getInt("ID"));
             }
         } catch (SQLException e) {throw new RuntimeException(e);}
     }
@@ -68,7 +76,7 @@ public class DatabaseHouseManager {
                         Utils.getJSONToLocation(resultSet.getString("LOC1")),
                         Utils.getJSONToLocation(resultSet.getString("LOC2")),
                         resultSet.getString("NAME")));
-                RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, new Location(Bukkit.getWorld("world"), Utils.getJSONToLocation(resultSet.getString("LOC1")).getX(), Utils.getJSONToLocation(resultSet.getString("LOC1")).getY(), Utils.getJSONToLocation(resultSet.getString("LOC1")).getZ()), new Location(Bukkit.getWorld("world"), Utils.getJSONToLocation(resultSet.getString("LOC2")).getX(), Utils.getJSONToLocation(resultSet.getString("LOC2")).getY(), Utils.getJSONToLocation(resultSet.getString("LOC2")).getZ()), resultSet.getString("NAME"), false);
+                RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, new Location(Bukkit.getWorld("world"), Utils.getJSONToLocation(resultSet.getString("LOC1")).getX(), Utils.getJSONToLocation(resultSet.getString("LOC1")).getY(), Utils.getJSONToLocation(resultSet.getString("LOC1")).getZ()), new Location(Bukkit.getWorld("world"), Utils.getJSONToLocation(resultSet.getString("LOC2")).getX(), Utils.getJSONToLocation(resultSet.getString("LOC2")).getY(), Utils.getJSONToLocation(resultSet.getString("LOC2")).getZ()), resultSet.getString("NAME"), true);
             }
         } catch (SQLException e) {throw new RuntimeException(e);}
     }
@@ -87,5 +95,19 @@ public class DatabaseHouseManager {
 
     public static void removeRegion(int id){
         Query.requestUpdate("DELETE FROM house_regions WHERE ID = "+id);
+    }
+
+    public static String getJsonFromArray(List<String> arrayList){
+        return new Gson().toJson(arrayList);
+    }
+
+    public static List<String> getArrayFromJson(String json){
+        json = json.replace("\\", "").replaceFirst("\"", "");
+        json = json.substring(0, json.length() - 1);
+        json = json.replace("[","");
+        json = json.replace("]","");
+        json = json.replace("\"","");
+        List<String> myList = new ArrayList<String>(Arrays.asList(json.split(",")));
+        return myList;
     }
 }

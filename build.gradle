@@ -23,8 +23,6 @@ dependencies {
     compileOnly "org.jetbrains:annotations:13.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.sun.xml.ws:rt:2.3.1'
-    implementation 'com.sun.xml.ws:jaxws-rt:2.3.2'
-    implementation 'com.sun.xml.ws:rt:2.3.2'
     implementation 'com.sun.xml.ws:jaxws-ri:2.3.2'
 }
 

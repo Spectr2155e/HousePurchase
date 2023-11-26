@@ -3,6 +3,7 @@ package fr.spectr2155e.housepurchase.region.manager;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.region.events.RegionCreateEvent;
 import fr.spectr2155e.housepurchase.region.events.RegionDeleteEvent;
 import fr.spectr2155e.housepurchase.region.tools.Region;
@@ -39,7 +40,6 @@ public class RegionManager {
 	 */
 	public Region registerRegion(Plugin creator, Location loc1, Location loc2, String name, boolean inVertical) {
 		Region region = new Region(loc1, loc2, name, inVertical);
-		System.out.println("adding region");
 		regionList.add(region);
 		
 		RegionCreateEvent event = new RegionCreateEvent(creator, region);
@@ -165,8 +165,9 @@ public class RegionManager {
 					//return true if coordinate is in region
 					return true;
 				}
+			} else {
+				return true;
 			}
-			return true;
 		}
 		
 		//Return false if coordinate isn't in region
@@ -220,10 +221,18 @@ public class RegionManager {
 					return true;
 				}
 			}
-			return true;
+			else {
+				return true;
+			}
 		}
 		
 		//Return false if coordinate isn't in region
 		return false;
+	}
+
+	public void unregisterAllRegions(HousePurchase instance, String name) {
+		while(regionList.contains(getRegion(name))){
+			unregisterRegion(instance, getRegion(name));
+		}
 	}
 }

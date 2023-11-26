@@ -23,6 +23,7 @@ public class ListenerManager {
         createListener(new HouseGUIOwnerBuy());
         createListener(new HouseGUILeaseSelector());
         createListener(new HouseGUICreationRegion());
+        createListener(new HouseGUITrustedUsers());
         createListener(new RegionListener(rm));
         createListener(new fr.spectr2155e.housepurchase.listeners.RegionListener());
     }

@@ -31,9 +31,10 @@ public class ConfigHouseManager {
         file.set("house.leaseDate", null);
         file.set("house.priceOfBuy", priceOfBuy);
         file.set("house.priceOfLease", priceOfLease);
+        file.set("house.trustedPlayers", null);
         addIdToList(id);
         saveConfigIdFile(file, id);
-        Houses.houses.put(id, new Houses(id, Utils.getLocationToJSON(location), false, null, false, null, false, null, priceOfBuy, priceOfLease, true));
+        Houses.houses.put(id, new Houses(id, Utils.getLocationToJSON(location), false, null, false, null, false, null, priceOfBuy, priceOfLease, true, null));
     }
 
     public static void createRegion(int id, Location loc1, Location loc2, String name){
@@ -67,7 +68,7 @@ public class ConfigHouseManager {
                     (Timestamp) file.get("house.leaseDate"),
                     file.getInt("house.priceOfBuy"),
                     file.getInt("house.priceOfLease"),
-                    true));
+                    true, file.getString("house.trustedPlayers")));
         }
     }
 
@@ -84,7 +85,9 @@ public class ConfigHouseManager {
         }
     }
 
-    public static void removeHouse(int id){removeIdFile(id);}
+    public static void removeHouse(int id){
+        removeIdFile(id);
+    }
 
     private static void checkDir(){
         if(!houseFolder.exists()){

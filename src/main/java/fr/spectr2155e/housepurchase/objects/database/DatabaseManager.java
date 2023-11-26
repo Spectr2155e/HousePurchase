@@ -34,7 +34,7 @@ public class DatabaseManager {
             System.out.println("Création de la base de donnée House Purchase !");
             Statement statement = getHouseConnection().getConnection().createStatement();
             String createQuery = "CREATE TABLE house_purchase(ID INT, LOCATION VARCHAR(200), IS_OWNED BOOLEAN, OWNER VARCHAR(20), IS_BUY BOOLEAN, DATE_OF_BUY TIMESTAMP, " +
-                    "IS_LEASE BOOLEAN, LEASE_DATE TIMESTAMP, PRICE_OF_BUY INT, PRICE_OF_LEASE INT)";
+                    "IS_LEASE BOOLEAN, LEASE_DATE TIMESTAMP, PRICE_OF_BUY INT, PRICE_OF_LEASE INT, TRUSTED_PLAYERS TEXT)";
             statement.execute(createQuery);
             statement.close();
         }

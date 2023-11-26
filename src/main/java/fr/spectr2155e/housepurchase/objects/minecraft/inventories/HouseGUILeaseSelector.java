@@ -1,7 +1,9 @@
 package fr.spectr2155e.housepurchase.objects.minecraft.inventories;
 
 import fr.spectr2155e.economy.classes.EconomyClass;
+import fr.spectr2155e.economy.managers.EconomyManager;
 import fr.spectr2155e.housepurchase.HousePurchase;
+import fr.spectr2155e.housepurchase.classes.BuyHouse;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.classes.LeaseHouse;
@@ -95,6 +97,7 @@ public class HouseGUILeaseSelector implements CommonInventory, Listener {
                 e.getWhoClicked().closeInventory();
                 return;
             }
+            EconomyManager.removeBankMoney(e.getWhoClicked().getName(), String.valueOf(LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getPriceToPay()), null);
             HousesManager.leaseHouse((Player) e.getWhoClicked(), LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getId());
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §fVous venez de louer cette maison pour §a"+LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getDayToPay()+"§fjour(s)");
             e.setCancelled(true);
