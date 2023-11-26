@@ -1,5 +1,6 @@
 package fr.spectr2155e.housepurchase.commands.subcommands;
 
+import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.commands.SubCommand;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
@@ -32,12 +33,12 @@ public class InformationCommand extends SubCommand {
     @Override
     public void perform(Player player, String[] args) {
         if(args.length != 2){
-            player.sendMessage("§8§l(§4§lERREUR§8§l) §cVeuillez utiliser la commande /housepurchase info <id>.");
+            player.sendMessage(HousePurchase.prefixError+"Veuillez utiliser la commande /housepurchase info <id>.");
             return;
         }
         final int id = Integer.parseInt(args[1]);
         if(!HousesManager.isHouseExist(id)){
-            player.sendMessage("§8§l(§4§lERREUR§8§l) §cLa maison comportant cet id est introuvable.");
+            player.sendMessage(HousePurchase.prefixError+"La maison comportant cet id est introuvable.");
             return;
         }
 

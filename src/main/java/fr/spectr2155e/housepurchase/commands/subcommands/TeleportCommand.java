@@ -1,5 +1,6 @@
 package fr.spectr2155e.housepurchase.commands.subcommands;
 
+import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.commands.SubCommand;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
@@ -32,18 +33,18 @@ public class TeleportCommand extends SubCommand {
     @Override
     public void perform(Player player, String[] args) {
         if(!(args.length == 2)){
-            player.sendMessage("§8§l(§4§lERREUR§8§l) §cVeuillez utiliser la commande /housepurchase teleport <id>.");
+            player.sendMessage(HousePurchase.prefixError+"Veuillez utiliser la commande /housepurchase teleport <id>.");
             return;
         }
         final int id = Integer.parseInt(args[1]);
         if(!HousesManager.isHouseExist(id)){
-            player.sendMessage("§8§l(§4§lERREUR§8§l) §cLa maison comportant cet id est introuvable.");
+            player.sendMessage(HousePurchase.prefixError+"La maison comportant cet id est introuvable.");
             return;
         }
         Location location = Utils.getJSONToLocation(Houses.houses.get(id).getLocation());
         location.setWorld(Bukkit.getWorld("world"));
         location.setY(location.getY() - 1);
         player.teleport(location);
-        player.sendMessage("§8§l(§6§lHousePurchase§8§l) §fVous avez été téléporter à la maison avec l'id: §e"+id);
+        player.sendMessage(HousePurchase.prefixHousePurchase+"Vous avez été téléporter à la maison avec l'id: §e"+id);
     }
 }

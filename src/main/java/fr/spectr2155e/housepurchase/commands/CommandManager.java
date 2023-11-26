@@ -34,7 +34,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if(!(args.length > 0)){
-                sender.sendMessage("§8§l(§4§lERREUR§8§l) §cVeuillez utiliser la commande /housepurchase help");
+                sender.sendMessage(HousePurchase.prefixError+"Veuillez utiliser la commande /housepurchase help");
                 return false;
             }
             for (SubCommand subCommand : getSubCommands()) {

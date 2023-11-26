@@ -1,5 +1,6 @@
 package fr.spectr2155e.housepurchase.commands.subcommands;
 
+import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.commands.SubCommand;
 import org.bukkit.entity.Player;
 
@@ -27,7 +28,7 @@ public class HelpCommand extends SubCommand {
     @Override
     public void perform(Player player, String[] args) {
         if(args.length != 1){
-            player.sendMessage("§8§l(§4§lERREUR§8§l) §cVeuillez utiliser la commande /housepurchase help.");
+            player.sendMessage(HousePurchase.prefixError+"Veuillez utiliser la commande /housepurchase help.");
             return;
         }
 

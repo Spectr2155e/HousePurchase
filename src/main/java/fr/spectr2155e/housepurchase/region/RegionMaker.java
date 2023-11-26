@@ -4,7 +4,6 @@ import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.region.listener.RegionListener;
 import fr.spectr2155e.housepurchase.region.manager.RegionManager;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import static org.bukkit.Bukkit.getServer;
 
@@ -43,7 +42,7 @@ public class RegionMaker {
 	/**
 	 * Main function on plugin enable
 	 */
-	public void onEnable() {
+	public void enable() {
 		instance = this;
 		
 		getServer().getConsoleSender().sendMessage(PREFIX + " �eVersion �a" + getServer().getBukkitVersion() + " �eof the Server.");
@@ -63,7 +62,7 @@ public class RegionMaker {
 	/**
 	 * Main function on plugin disable
 	 */
-	public void onDisable() {
+	public void disable() {
 		instance = null;
 		getServer().getConsoleSender().sendMessage(PREFIX + " �ePlugin library by CanardConfit is disabled !");
 	}

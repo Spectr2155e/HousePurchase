@@ -8,9 +8,6 @@ import fr.spectr2155e.housepurchase.commands.CommandManager;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.managers.*;
 import fr.spectr2155e.housepurchase.region.RegionMaker;
-import fr.spectr2155e.housepurchase.region.listener.RegionListener;
-import fr.spectr2155e.housepurchase.region.manager.RegionManager;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,6 +19,9 @@ import java.util.List;
 import java.util.Locale;
 
 public final class HousePurchase extends JavaPlugin {
+    
+    public static final String prefixHousePurchase = "§8§l(§6§lHousePurchase§8§l) §c";
+    public static final String prefixError = "§8§l(§4§lErreur§8§l) §c";
 
     public static HousePurchase instance;
     public static FileManager fileManager = new FileManager();
@@ -36,12 +36,11 @@ public final class HousePurchase extends JavaPlugin {
     public static DatabaseManager getDatabaseManager() {return databaseManager;}
 
     public static String methodOfStorage;
-    private RegionManager rm;
 
     @Override
     public void onEnable() {
         instance = this;
-        regionMaker.onEnable();
+        regionMaker.enable();
         configManager.initConfig();
         System.out.println("HousePurchase activé ! Version 1.0");
         listenerManager.initListeners();
@@ -50,20 +49,13 @@ public final class HousePurchase extends JavaPlugin {
         Houses.initHouses();
         HouseRegion.initRegions();
         LeaseHouse.initTimer();
-        rm = new RegionManager();
-        getCommand("housepurchase").setExecutor(new CommandManager());
-        getCommand("housepurchase").setTabCompleter(new CommandManager());
-        List<String> list = new ArrayList<>();
-        list.add("houses");
-        list.add("house");
-        getCommand("housepurchase").setAliases(list);
     }
 
     @Override
     public void onDisable() {
         if(methodOfStorage.equals("database"))
             getDatabaseManager().close();
-        regionMaker.onDisable();
+        regionMaker.disable();
     }
 
     private void initAllTables(){

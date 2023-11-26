@@ -93,7 +93,7 @@ public class HouseGUITrustedUsers implements CommonInventory, Listener {
             if(!addTrustedPlayers.contains(e.getWhoClicked().getName())){
                 addTrustedPlayers.add(e.getWhoClicked().getName());
             }
-            e.getWhoClicked().sendMessage("§8§l(§6§lHousePurchase§8§l) §fVeuillez indiquer dans le chat une personne que vous souhaiterez ajouter à votre maison.");
+            e.getWhoClicked().sendMessage(HousePurchase.prefixHousePurchase+"Veuillez indiquer dans le chat une personne que vous souhaiterez ajouter à votre maison.");
             e.setCancelled(true);
             new BukkitRunnable(){
                 @Override
@@ -106,18 +106,18 @@ public class HouseGUITrustedUsers implements CommonInventory, Listener {
             if(e.getClick().isRightClick()) {
                 if(!Houses.houses.get(HouseAddTrustedPlayers.houseAddTrustedPlayersHashMap.get(e.getWhoClicked()).getId()).getOwner().equals(e.getWhoClicked().getName())){
                     e.setCancelled(true);
-                    e.getWhoClicked().sendMessage("§8§l(§4§lErreur§8§l) §cVous n'avez pas la permission de supprimer un joueur de cette maison.");
+                    e.getWhoClicked().sendMessage(HousePurchase.prefixError+"Vous n'avez pas la permission de supprimer un joueur de cette maison.");
                     e.getWhoClicked().closeInventory();
                     return;
                 }
                 e.setCancelled(true);
-                e.getWhoClicked().sendMessage("§8§l(§6§lHousePurchase§8§l) §fVous avez supprimé le joueur §a"+e.getCurrentItem().getItemMeta().getDisplayName().replace("§e§l", "")+" §fde votre maison.");
+                e.getWhoClicked().sendMessage(HousePurchase.prefixHousePurchase+"Vous avez supprimé le joueur §a"+e.getCurrentItem().getItemMeta().getDisplayName().replace("§e§l", "")+" §fde votre maison.");
                 e.getWhoClicked().closeInventory();
                 Houses.houses.get(HouseAddTrustedPlayers.houseAddTrustedPlayersHashMap.get(e.getWhoClicked()).getId()).removeTrustedPlayer(e.getCurrentItem().getItemMeta().getDisplayName().replace("§e§l", ""));
             }
             if(e.getClick().isLeftClick()) {
                 e.setCancelled(true);
-                e.getWhoClicked().sendMessage("§8§l(§6§lHousePurchase§8§l) §fLe joueur §a"+e.getCurrentItem().getItemMeta().getDisplayName()+" §ffait parti de votre maison.");
+                e.getWhoClicked().sendMessage(HousePurchase.prefixHousePurchase+"Le joueur §a"+e.getCurrentItem().getItemMeta().getDisplayName()+" §ffait parti de votre maison.");
                 e.getWhoClicked().closeInventory();
             }
         }
@@ -129,13 +129,13 @@ public class HouseGUITrustedUsers implements CommonInventory, Listener {
             return;
         }
         if(e.getMessage().equals(e.getPlayer().getName())){
-            e.getPlayer().sendMessage("§8§l(§4§lErreur§8§l) §cVous ne pouvez pas vous ajouter à votre propre maison.");
+            e.getPlayer().sendMessage(HousePurchase.prefixError+"Vous ne pouvez pas vous ajouter à votre propre maison.");
             e.setCancelled(true);
             addTrustedPlayers.remove(e.getPlayer().getName());
             return;
         }
         if(!Bukkit.getOfflinePlayer(e.getMessage()).hasPlayedBefore() && Bukkit.getPlayer(e.getMessage()) == null){
-            e.getPlayer().sendMessage("§8§l(§4§lErreur§8§l) §cVeuillez insérer un joueur valide qui a déjà joué au serveur, veuillez réessayer en ouvrant de nouveau la porte.");
+            e.getPlayer().sendMessage(HousePurchase.prefixError+"Veuillez insérer un joueur valide qui a déjà joué au serveur, veuillez réessayer en ouvrant de nouveau la porte.");
             e.setCancelled(true);
             addTrustedPlayers.remove(e.getPlayer().getName());
             return;
@@ -146,14 +146,14 @@ public class HouseGUITrustedUsers implements CommonInventory, Listener {
             list.add(e.getMessage());
             Houses.houses.get(HouseAddTrustedPlayers.houseAddTrustedPlayersHashMap.get(e.getPlayer()).getId()).setTrustedPlayers(DatabaseHouseManager.getJsonFromArray(list));
             e.setCancelled(true);
-            e.getPlayer().sendMessage("§8§l(§6§lHousePurchase§8§l) §fLe joueur §a"+e.getMessage()+"§f a maintenant les clés de votre maison.");
+            e.getPlayer().sendMessage(HousePurchase.prefixHousePurchase+"Le joueur §a"+e.getMessage()+"§f a maintenant les clés de votre maison.");
             addTrustedPlayers.remove(e.getPlayer().getName());
             return;
         }
         list = DatabaseHouseManager.getArrayFromJson(Houses.houses.get(HouseAddTrustedPlayers.houseAddTrustedPlayersHashMap.get(e.getPlayer()).getId()).getTrustedPlayers());
         if(list.contains(e.getMessage())){
             e.setCancelled(true);
-            e.getPlayer().sendMessage("§8§l(§4§lErreur§8§l) §cVous ne pouvez pas ajouter une personne qui a déjà les clés de votre maison.");
+            e.getPlayer().sendMessage(HousePurchase.prefixError+"Vous ne pouvez pas ajouter une personne qui a déjà les clés de votre maison.");
             addTrustedPlayers.remove(e.getPlayer().getName());
             return;
         }
@@ -162,14 +162,14 @@ public class HouseGUITrustedUsers implements CommonInventory, Listener {
             list.add(e.getMessage());
             Houses.houses.get(HouseAddTrustedPlayers.houseAddTrustedPlayersHashMap.get(e.getPlayer()).getId()).setTrustedPlayers(DatabaseHouseManager.getJsonFromArray(list));
             e.setCancelled(true);
-            e.getPlayer().sendMessage("§8§l(§6§lHousePurchase§8§l) §fLe joueur §a"+e.getMessage()+"§f a maintenant les clés de votre maison.");
+            e.getPlayer().sendMessage(HousePurchase.prefixHousePurchase+"Le joueur §a"+e.getMessage()+"§f a maintenant les clés de votre maison.");
             addTrustedPlayers.remove(e.getPlayer().getName());
             return;
         }
         list.add(e.getMessage());
         Houses.houses.get(HouseAddTrustedPlayers.houseAddTrustedPlayersHashMap.get(e.getPlayer()).getId()).setTrustedPlayers(DatabaseHouseManager.getJsonFromArray(list));
         e.setCancelled(true);
-        e.getPlayer().sendMessage("§8§l(§6§lHousePurchase§8§l) §fLe joueur §a"+e.getMessage()+"§f a maintenant les clés de votre maison.");
+        e.getPlayer().sendMessage(HousePurchase.prefixHousePurchase+"Le joueur §a"+e.getMessage()+"§f a maintenant les clés de votre maison.");
         addTrustedPlayers.remove(e.getPlayer().getName());
     }
 }
