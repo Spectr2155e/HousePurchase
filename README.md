@@ -16,7 +16,6 @@
 * 🔑 Donne la clé à tes amis
 * 🧰 Donne la possibilité d'accéder aux coffres de ta maison à tes amis
 * 📦 Donne la possibilité à tes amis de poser des items
-* 💸 Donne la possibilité à tes amis de vendre ta maison
 
 # Déverouille et vérrouille ta porte
 
