@@ -24,6 +24,28 @@ public class Utils {
         return format.format(now);
     }
 
+    public String timeStampToStringDate(Timestamp timestamp){
+        String date;
+        String day = String.valueOf(timestamp.getDate());
+        String month = String.valueOf(timestamp.getMonth()+1);
+        String year = String.valueOf(timestamp.getYear()+1900);
+        String hours = String.valueOf(timestamp.getHours()+1);
+        String minutes = String.valueOf(timestamp.getMinutes());
+        if(timestamp.getMinutes() < 10){
+            minutes = "0"+minutes;
+        }
+        if(timestamp.getHours()+1 < 10){
+            hours = "0"+hours;
+        }
+        if(timestamp.getMonth()+1 < 10){
+            month = "0"+month;
+        }
+        if(timestamp.getDate() < 10){
+            day = "0"+day;
+        }
+        return day+"/"+month+"/"+year+" "+hours+":"+minutes;
+    }
+
     public boolean isInt(String str) {
         try {
             Integer.parseInt(str);

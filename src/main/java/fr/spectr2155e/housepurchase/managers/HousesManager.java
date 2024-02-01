@@ -12,6 +12,7 @@ import java.util.Map;
 
 public class HousesManager {
 
+    // Vérification si la maison existe
     public static boolean isHouseExist(Location location){
         boolean bool = false;
         for (Map.Entry<Integer, Houses> entry : Houses.houses.entrySet()) {
@@ -43,6 +44,7 @@ public class HousesManager {
         Houses.houses.get(id).setLeaseDate(Utils.addDays(new Timestamp(System.currentTimeMillis()), LeaseHouse.leaseHouse.get(player).getDayToPay()));
     }
 
+    // Vérification de la division de la porte (1/2)
     public static boolean checkHouse(Location location){
         boolean bool = false;
         location.setY(location.getY()+1);
