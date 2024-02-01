@@ -25,7 +25,6 @@ public class Utils {
     }
 
     public String timeStampToStringDate(Timestamp timestamp){
-        String date;
         String day = String.valueOf(timestamp.getDate());
         String month = String.valueOf(timestamp.getMonth()+1);
         String year = String.valueOf(timestamp.getYear()+1900);

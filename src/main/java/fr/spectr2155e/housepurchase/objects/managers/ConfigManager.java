@@ -8,7 +8,7 @@ import java.io.IOException;
 public class ConfigManager {
 
     public void initConfig(){
-        HousePurchase.instance.getConfig().addDefault("database.host", "sql2.minestrator.com");
+        HousePurchase.instance.getConfig().addDefault("database.host", "sql.shinobi-legacy.fr");
         HousePurchase.instance.getConfig().addDefault("database.user", "shinobilegacy");
         HousePurchase.instance.getConfig().addDefault("database.password", "r8aoZoals");
         HousePurchase.instance.getConfig().addDefault("database.dbName", "shinobilegacy");

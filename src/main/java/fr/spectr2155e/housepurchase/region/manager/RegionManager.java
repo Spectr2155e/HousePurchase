@@ -214,8 +214,8 @@ public class RegionManager {
 				double y2 = regionLocs[1].getY();
 
 				//Verify if coordinate is in y region
-				if (y1 < yp && y2 > yp
-				 || y1 > yp && y2 < yp) {
+				if (y1 <= yp && y2 >= yp
+				 || y1 >= yp && y2 <= yp) {
 					
 					//return true if coordinate is in region
 					return true;

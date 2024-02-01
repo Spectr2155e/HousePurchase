@@ -122,13 +122,13 @@ public class DatabaseHouseManager {
         return new Gson().toJson(arrayList);
     }
 
-    public static List<String> getArrayFromJson(String json){
-        json = json.replace("\\", "").replaceFirst("\"", "");
-        json = json.substring(0, json.length() - 1);
-        json = json.replace("[","");
-        json = json.replace("]","");
-        json = json.replace("\"","");
-        List<String> myList = new ArrayList<String>(Arrays.asList(json.split(",")));
+    public static List<String> getArrayFromJson(String list){
+        list = list.replace("\\", "").replaceFirst("\"", "");
+        list = list.substring(0, list.length() - 1);
+        list = list.replace("[","");
+        list = list.replace("]","");
+        list = list.replace("\"","");
+        List<String> myList = new ArrayList<String>(Arrays.asList(list.split(",")));
         return myList;
     }
 }

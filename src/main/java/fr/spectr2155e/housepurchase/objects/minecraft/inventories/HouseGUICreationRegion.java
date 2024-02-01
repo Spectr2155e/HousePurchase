@@ -31,7 +31,8 @@ public class HouseGUICreationRegion implements CommonInventory, Listener {
         inventory = Bukkit.createInventory(null, 45, "Creation de Region");
         for(int i = 0; i < 45; i++){
             if(i == 0 || i == 8 || i == 9 || i == 17 || i == 18 || i == 26 || i == 27 || i == 35 || i == 36 || i == 44){inventory.setItem(i, HousePurchase.utils.getItem(Material.STAINED_GLASS_PANE, null, 0));}
-            if(i == 1 || i == 7 || i == 10 || i == 16 || i == 19 || i == 25 || i == 28 || i == 34 || i == 37 || i == 43){inventory.setItem(i, HousePurchase.utils.getItem(Material.STAINED_GLASS_PANE, null, 7));}
+            if(i == 1 || i == 7 || i == 10 || i == 16 || i == 19 || i == 25 || i == 28 || i == 34 || i == 37 || i == 43) inventory.setItem(i, HousePurchase.utils.getItem(Material.STAINED_GLASS_PANE, null, 7));
+
         }
         inventory.setItem(12, HousePurchase.utils.getItem(Material.STAINED_GLASS, "§6§lLocation n°1", 0, "§7Cliquez afin de définir", "§7la location n°1."));
         inventory.setItem(13, HousePurchase.utils.getItem(Material.STAINED_GLASS, "§6§lLocation n°2", 0, "§7Cliquez afin de définir", "§7la location n°2."));

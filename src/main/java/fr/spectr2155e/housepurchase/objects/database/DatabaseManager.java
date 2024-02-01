@@ -25,7 +25,7 @@ public class DatabaseManager {
     }
 
     public void initTables() throws SQLException {
-        System.out.println("Initialisation des bases de donées...");
+        System.out.println("Initialisation des bases de données...");
         DatabaseMetaData dbm = getHouseConnection().getConnection().getMetaData();
 
         // House Purchase

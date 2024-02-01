@@ -16,9 +16,7 @@ public class RegionListener implements Listener {
     // Cette méthode est un gestionnaire d'événements pour RegionPlayerEnterEvent, qui est déclenché lorsqu'un joueur entre dans une région.
     @EventHandler
     public void onRegionEnter(RegionPlayerEnterEvent e) {
-        // Vérifie si le joueur est entré dans la région "test".
         if (e.getRegion().getRegionName().equalsIgnoreCase("test")) {
-            // Envoie un message au joueur indiquant qu'il est entré dans une maison.
             e.getPlayer().sendMessage("Vous entrez dans une maison");
         }
     }
