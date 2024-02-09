@@ -54,6 +54,13 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
         inventory.setItem(20, HousePurchase.utils.getItem(Material.SLIME_BALL, "§a§lPrix de la maison", 0, "§7La maison coûte §a"+ HousePurchase.numberFormat.format(Houses.houses.get(Houses.getId(location)).getPriceOfBuy())+"€"));
         inventory.setItem(24, HousePurchase.utils.getItem(Material.EMPTY_MAP, "§7§lQuartier", 0)); // Quartier
         inventory.setItem(38, HousePurchase.utils.getItem(Material.SKULL_ITEM, "§7§lMembres", 0, "§7Cliquez afin d'ajouter une personne de confiance."));
+        if(Houses.houses.get(Houses.getId(location)).isBuy()){
+            inventory.setItem(22, HousePurchase.utils.getItem(Material.WOOD_DOOR, "§6§lMaison", 0, "§fStatut: §aAcheté", "§fPrix de la maison: §a"+Houses.houses.get(Houses.getId(location)).getPriceOfBuy()));
+            player.openInventory(inventory);
+        } else {
+            inventory.setItem(22, HousePurchase.utils.getItem(Material.WOOD_DOOR, "§6§lMaison", 0, "§fStatut: §6Loué", "Date de fin de location: §e" + Houses.houses.get(Houses.getId(location)).getLeaseDate(), "§fPrix de la maison: §a" + Houses.houses.get(Houses.getId(location)).getPriceOfBuy()));
+            player.openInventory(inventory);
+        }
         if(Houses.houses.get(Houses.getId(location)).getOwner().equals(player.getName())){
             if(Houses.houses.get(Houses.getId(location)).isLease()){
                 inventory.setItem(36, HousePurchase.utils.getItem(Material.INK_SACK, "§c§lArrêter la location", 1, "§7Cette action entrainera un arrêt de la location sans remboursement."));
