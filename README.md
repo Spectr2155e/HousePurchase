@@ -2,6 +2,7 @@
 
 * ⚡ Gui personnalisé et chargé automatiquement
 * ⚡ Système de requêtes SQL optimisé
+* 📁 Choix entre stocké les maisons dans des configurations ou ta base de données
 * 🏠 Stockage d'information dans des classes "Houses"
 * 🚪 Cliquez sur la porte et découvrez !
 
