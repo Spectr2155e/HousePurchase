@@ -118,6 +118,18 @@ public class DatabaseHouseManager {
         Query.requestUpdate("DELETE FROM house_regions WHERE ID = "+id);
     }
 
+    public static void removeHouse(int id){
+        int index = 0;
+        for(int i : Houses.housesList){
+            if(i == id){
+                Houses.housesList.remove(index);
+                return;
+            }
+            index++;
+        }
+        Query.requestUpdate("DELETE FROM house_purchase WHERE ID = "+id);
+    }
+
     public static String getJsonFromArray(List<String> arrayList){
         return new Gson().toJson(arrayList);
     }
@@ -130,5 +142,21 @@ public class DatabaseHouseManager {
         list = list.replace("\"","");
         List<String> myList = new ArrayList<String>(Arrays.asList(list.split(",")));
         return myList;
+    }
+
+    public static Houses getHouse(Location[] locations) {
+        String sqlRequest = "SELECT ID, LOC1, LOC2, NAME FROM house_regions";
+        try {
+            Connection connection = DatabaseManager.getHouseConnection().getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT ID, LOC1, LOC2, NAME FROM house_regions");
+            while (resultSet.next()) {
+                if (resultSet.getString("LOC1").equals(Utils.getLocationToJSON(locations[0])))
+                    return Houses.houses.get(Integer.valueOf(resultSet.getInt("ID")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 }

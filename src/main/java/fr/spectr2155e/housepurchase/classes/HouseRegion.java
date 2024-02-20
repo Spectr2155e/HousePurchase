@@ -106,17 +106,12 @@ public class HouseRegion {
 
     public static Houses getHouse(Region region){
         Location[] locations = region.getLocs();
-        final String sqlRequest = "SELECT ID, LOC1, LOC2, NAME FROM house_regions";
-        try {
-            final Connection connection = DatabaseManager.getHouseConnection().getConnection();
-            final Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlRequest);
-            while(resultSet.next()){
-                if(resultSet.getString("LOC1").equals(Utils.getLocationToJSON(locations[0]))){
-                    return Houses.houses.get(resultSet.getInt("ID"));
-                }
-            }
-        } catch (SQLException e) {throw new RuntimeException(e);}
+        switch (HousePurchase.methodOfStorage) {
+            case "database":
+                return DatabaseHouseManager.getHouse(locations);
+            case "file":
+                return ConfigHouseManager.getHouse(locations);
+        }
         return null;
     }
 }

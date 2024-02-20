@@ -7,6 +7,7 @@ import fr.spectr2155e.housepurchase.classes.BuyHouse;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.classes.LeaseHouse;
+import fr.spectr2155e.housepurchase.managers.EconomyHouseManager;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -91,7 +92,7 @@ public class HouseGUILeaseSelector implements CommonInventory, Listener {
             e.getWhoClicked().closeInventory();
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§a§lConfirmer l'achat")) {
-            if(!(EconomyClass.economyUsers.get(e.getWhoClicked().getName()).getBankMoney() >= LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getPriceToPay())){
+            if(!EconomyHouseManager.hasEnoughMoney((Player) e.getWhoClicked(), LeaseHouse.leaseHouse.get(e.getWhoClicked()).getPriceToPay())){
                 e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous n'avez pas l'argent nécessaire afin de louer cette maison.");
                 e.setCancelled(true);
                 e.getWhoClicked().closeInventory();

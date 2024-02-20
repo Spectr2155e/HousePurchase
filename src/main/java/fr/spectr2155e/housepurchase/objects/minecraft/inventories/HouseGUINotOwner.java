@@ -6,6 +6,8 @@ import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.BuyHouse;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
+import fr.spectr2155e.housepurchase.classes.LeaseHouse;
+import fr.spectr2155e.housepurchase.managers.EconomyHouseManager;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -68,7 +70,7 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
         if(e.getCurrentItem().getItemMeta() == null) return;
         if(e.getCurrentItem().getItemMeta().getDisplayName() == null) return;
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§a§lAcheter la maison")){
-            if(!(EconomyClass.economyUsers.get(e.getWhoClicked().getName()).getBankMoney() >= BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getPriceOfBuy())){
+            if(!EconomyHouseManager.hasEnoughMoney((Player) e.getWhoClicked(), BuyHouse.buyHouse.get(e.getWhoClicked()).getPriceOfBuy())){
                 e.getWhoClicked().sendMessage("§8§l[§4§lErreur§8§l] §cVous n'avez pas l'argent nécessaire afin d'acheter cette maison.");
                 e.setCancelled(true);
                 e.getWhoClicked().closeInventory();

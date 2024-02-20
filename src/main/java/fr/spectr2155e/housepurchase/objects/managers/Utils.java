@@ -3,10 +3,15 @@ package fr.spectr2155e.housepurchase.objects.managers;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import fr.spectr2155e.housepurchase.HousePurchase;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -157,6 +162,15 @@ public class Utils {
         cal.add(Calendar.HOUR, days*24);
         timestamp.setTime(cal.getTime().getTime());
         return timestamp;
+    }
+
+    public static TextComponent createClickableCommand(String message, String command, String message2) {
+        // Make a new component (Bungee API).
+        TextComponent component = new TextComponent(message2);
+        // Add a click event to the component.
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command.replaceAll("§e", "").replaceAll("§l", "").replaceAll("§6", "")));
+        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent(message)}));
+        return component;
     }
 
 }

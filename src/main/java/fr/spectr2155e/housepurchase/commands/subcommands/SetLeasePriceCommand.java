@@ -19,12 +19,12 @@ public class SetLeasePriceCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Commande afin de changer le prix de location de la maison";
+        return "§7Commande afin de changer le prix de location de la maison";
     }
 
     @Override
     public String getUsage() {
-        return "/housepurchase setBuyLease <prix>/j <id>";
+        return "§6§l/housepurchase setBuyLease §e§l<prix>/j <id>";
     }
 
     @Override

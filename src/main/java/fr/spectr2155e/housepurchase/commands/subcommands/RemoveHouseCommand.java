@@ -20,12 +20,12 @@ public class RemoveHouseCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Commande afin de supprimer une maison.";
+        return "§7Commande afin de supprimer une maison.";
     }
 
     @Override
     public String getUsage() {
-        return "/housepurchase removeHouse <id>";
+        return "§6§l/housepurchase removeHouse §e§l<id>";
     }
 
     @Override

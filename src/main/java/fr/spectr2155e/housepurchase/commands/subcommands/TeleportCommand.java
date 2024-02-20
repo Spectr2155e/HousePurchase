@@ -22,12 +22,12 @@ public class TeleportCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Commande afin de se téléporter à une maison avec l'id.";
+        return "§7Commande afin de se téléporter à une maison avec l'id.";
     }
 
     @Override
     public String getUsage() {
-        return "/housepurchase teleport <id>";
+        return "§6§l/housepurchase teleport §e§l<id>";
     }
 
     @Override
@@ -45,6 +45,6 @@ public class TeleportCommand extends SubCommand {
         location.setWorld(Bukkit.getWorld("world"));
         location.setY(location.getY() - 1);
         player.teleport(location);
-        player.sendMessage(HousePurchase.prefixHousePurchase+"Vous avez été téléporter à la maison avec l'id: §e"+id);
+        player.sendMessage(HousePurchase.prefixHousePurchase+"Vous avez été téléporté(e) à la maison avec l'id: §e"+id);
     }
 }

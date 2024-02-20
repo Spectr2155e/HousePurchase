@@ -22,12 +22,12 @@ public class InformationCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Commande afin de voir les informations d'une maison";
+        return "§7Commande afin de voir les informations d'une maison";
     }
 
     @Override
     public String getUsage() {
-        return "/housepurchase info <id>";
+        return "§6§l/housepurchase info §e§l<id>";
     }
 
     @Override
@@ -75,6 +75,6 @@ public class InformationCommand extends SubCommand {
         player.sendMessage("§7§lDate de location: §3"+ leaseDate);
         player.sendMessage("§7§lPrix d'achat: §a"+ priceOfBuy);
         player.sendMessage("§7§lPrix de location: §a"+ priceOfLease);
-        player.sendMessage("§7§lAmis: §a"+ friends);
+        player.sendMessage("§7§lAmis: §a"+ friends.replace("[", "").replace("]", "").replaceAll("\"", ""));
     }
 }

@@ -20,12 +20,12 @@ public class RemoveRegionCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Commande afin de supprimer une region.";
+        return "§7Commande afin de supprimer une region.";
     }
 
     @Override
     public String getUsage() {
-        return "/housepurchase removeRegion <id>";
+        return "§6§l/housepurchase removeRegion §e§l<id>";
     }
 
     @Override

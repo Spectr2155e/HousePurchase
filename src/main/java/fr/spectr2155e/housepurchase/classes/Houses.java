@@ -6,11 +6,16 @@ import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.database.Query;
+import fr.spectr2155e.housepurchase.objects.managers.ConfigManager;
+import fr.spectr2155e.housepurchase.objects.managers.FileManager;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
 import java.sql.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +54,7 @@ public class Houses {
         this.trustedPlayers = trustedPlayers;
     }
 
-    public static void initHouses(){
+    public static void initHouses() throws ParseException {
         switch (HousePurchase.methodOfStorage){
             case "file":
                 ConfigHouseManager.initHouses();
@@ -80,7 +85,7 @@ public class Houses {
                 ConfigHouseManager.removeHouse(id);
                 break;
             case "database":
-                Query.requestUpdate("DELETE FROM house_purchase WHERE ID = "+id);
+                DatabaseHouseManager.removeHouse(id);
                 break;
         }
     }
@@ -99,7 +104,9 @@ public class Houses {
         this.location = location;
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(Houses.getId(Utils.getJSONToLocation(location)))).set("house.location", Utils.getJSONToLocation(newLocation));
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(Houses.getId(Utils.getJSONToLocation(location))));
+                file.set("house.location", Utils.getJSONToLocation(newLocation));
+                ConfigHouseManager.saveConfigIdFile(file, Houses.getId(Utils.getJSONToLocation(location)));
                 break;
             case "database":
                 Query.requestUpdate("UPDATE house_purchase SET LOCATION = "+newLocation+" WHERE LOCATION = "+location);
@@ -113,7 +120,9 @@ public class Houses {
         isOwned = owned;
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.isOwned", owned);
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.isOwned", owned);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 break;
             case "database":
                 Query.requestUpdate("UPDATE house_purchase SET IS_OWNED = "+owned+" WHERE ID = "+this.id);
@@ -127,6 +136,9 @@ public class Houses {
         this.owner = owner;
         switch (HousePurchase.methodOfStorage){
             case "file":
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.owner", owner);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.owner", owner);
                 break;
             case "database":
@@ -147,7 +159,9 @@ public class Houses {
         isBuy = buy;
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.isBuy", buy);
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.isBuy", buy);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 break;
             case "database":
                 Query.requestUpdate("UPDATE house_purchase SET IS_BUY = "+buy+" WHERE ID = "+this.id);
@@ -161,7 +175,9 @@ public class Houses {
         this.dateOfBuy = dateOfBuy;
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.dateOfBuy", dateOfBuy);
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.dateOfBuy", dateOfBuy);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 break;
             case "database":
                 try {
@@ -181,7 +197,9 @@ public class Houses {
         isLease = lease;
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.isLease", lease);
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.isLease", lease);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 break;
             case "database":
                 Query.requestUpdate("UPDATE house_purchase SET IS_LEASE = "+lease+" WHERE ID = "+this.id);
@@ -195,7 +213,9 @@ public class Houses {
         this.leaseDate = leaseDate;
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.leaseDate", leaseDate);
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.leaseDate", leaseDate);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 break;
             case "database":
                 try {
@@ -215,7 +235,9 @@ public class Houses {
         this.priceOfBuy = priceOfBuy;
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.priceOfBuy", priceOfBuy);
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.priceOfBuy", priceOfBuy);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 break;
             case "database":
                 Query.requestUpdate("UPDATE house_purchase SET PRICE_OF_BUY = "+priceOfBuy+" WHERE ID = "+this.id);
@@ -229,7 +251,9 @@ public class Houses {
         this.priceOfLease = priceOfLease;
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.priceOfLease", priceOfLease);
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.priceOfLease", priceOfLease);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 break;
             case "database":
                 Query.requestUpdate("UPDATE house_purchase SET PRICE_OF_LEASE = "+priceOfLease+" WHERE ID = "+this.id);
@@ -248,7 +272,9 @@ public class Houses {
     public void setTrustedPlayers(String trustedPlayers) {
         switch (HousePurchase.methodOfStorage){
             case "file":
-                YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id)).set("house.trustedPlayers", trustedPlayers);
+                FileConfiguration file = YamlConfiguration.loadConfiguration(ConfigHouseManager.getIdFile(this.id));
+                file.set("house.trustedPlayers", trustedPlayers);
+                ConfigHouseManager.saveConfigIdFile(file, this.id);
                 break;
             case "database":
                 try {

@@ -8,11 +8,16 @@ import fr.spectr2155e.housepurchase.commands.CommandManager;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.managers.*;
 import fr.spectr2155e.housepurchase.region.RegionMaker;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +25,7 @@ import java.util.Locale;
 
 public final class HousePurchase extends JavaPlugin {
     
-    public static final String prefixHousePurchase = "§8§l(§6§lHousePurchase§8§l) §c";
+    public static final String prefixHousePurchase = "§8§l(§6§lHousePurchase§8§l) §f";
     public static final String prefixError = "§8§l(§4§lErreur§8§l) §c";
 
     public static HousePurchase instance;
@@ -36,17 +41,24 @@ public final class HousePurchase extends JavaPlugin {
     public static DatabaseManager getDatabaseManager() {return databaseManager;}
 
     public static String methodOfStorage;
+    public static String economyMode;
+    public static Economy econ;
 
     @Override
     public void onEnable() {
         instance = this;
+        initMethodOfStorage();
+        initEconomyMode();
         regionMaker.enable();
         configManager.initConfig();
         System.out.println("HousePurchase activé ! Version 1.0");
         listenerManager.initListeners();
         commandsManager.initCommands();
-        initMethodOfStorage();
-        Houses.initHouses();
+        try {
+            Houses.initHouses();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         HouseRegion.initRegions();
         LeaseHouse.initTimer();
     }
@@ -74,5 +86,30 @@ public final class HousePurchase extends JavaPlugin {
             databaseManager = new DatabaseManager();
             initAllTables();
         }
+    }
+
+    private void initEconomyMode(){
+        String configEconomyMode = getConfig().getString("config.economy");
+        if(!configEconomyMode.equals("vault") && !configEconomyMode.equals("custom")){
+            System.out.println("§4Erreur de l'initialisation de la méthode d'economy, veillez à bien avoir préciser vault ou custom dans la config du plugin.");
+            getServer().shutdown();
+            return;
+        }
+        if(configEconomyMode.equals("vault") && !setupEconomy()){
+            this.getLogger().severe("Le plugin a cessé de fonctionner suite à un dysfonctionnement de Vault ou de son inexistance");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+        economyMode = configEconomyMode;
+
+    }
+
+    private Boolean setupEconomy() {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            econ = economyProvider.getProvider();
+            return true;
+        }
+        return false;
     }
 }

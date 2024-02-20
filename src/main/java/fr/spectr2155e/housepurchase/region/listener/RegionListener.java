@@ -10,6 +10,7 @@ import fr.spectr2155e.housepurchase.region.manager.RegionManager;
 import fr.spectr2155e.housepurchase.region.tools.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -291,7 +292,8 @@ public class RegionListener implements Listener {
 	 */
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
-		Region reg = rm.getRegion(event.getPlayer().getLocation());
+		if(event.getClickedBlock() == null) return;
+		Region reg = rm.getRegionBlock(event.getClickedBlock().getLocation());
 		if (reg != null) {
 			RegionInteractEvent rie = new RegionInteractEvent(reg, event.getAction(), event.getClickedBlock(), event.getPlayer(), event.getItem(), event.getBlockFace(), event.getMaterial());
 			Bukkit.getPluginManager().callEvent(rie);

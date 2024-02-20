@@ -20,12 +20,12 @@ public class SetBuyPriceCommand extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "Commande afin de changer le prix d'achat de la maison";
+        return "§7Commande afin de changer le prix d'achat de la maison";
     }
 
     @Override
     public String getUsage() {
-        return "/housepurchase setBuyPrice <prix> <id>";
+        return "§6§l/housepurchase setBuyPrice §e§l<prix> <id>";
     }
 
     @Override
@@ -45,6 +45,6 @@ public class SetBuyPriceCommand extends SubCommand {
         }
         final int price = Integer.parseInt(args[1]);
         Houses.houses.get(id).setPriceOfBuy(price);
-        player.sendMessage(HousePurchase.prefixHousePurchase+"Le prix de la maison à l'achat sous l'id§e"+id+" §fest maintenant de §a"+price);
+        player.sendMessage(HousePurchase.prefixHousePurchase+"Le prix de la maison à l'achat sous l'id §e"+id+" §fest maintenant de §a"+price);
     }
 }

@@ -8,12 +8,13 @@ import java.io.IOException;
 public class ConfigManager {
 
     public void initConfig(){
-        HousePurchase.instance.getConfig().addDefault("database.host", "sql.shinobi-legacy.fr");
-        HousePurchase.instance.getConfig().addDefault("database.user", "shinobilegacy");
-        HousePurchase.instance.getConfig().addDefault("database.password", "r8aoZoals");
-        HousePurchase.instance.getConfig().addDefault("database.dbName", "shinobilegacy");
+        HousePurchase.instance.getConfig().addDefault("database.host", "localhost");
+        HousePurchase.instance.getConfig().addDefault("database.user", "root");
+        HousePurchase.instance.getConfig().addDefault("database.password", "password");
+        HousePurchase.instance.getConfig().addDefault("database.dbName", "housepurchase");
         HousePurchase.instance.getConfig().addDefault("database.port", 3306);
         HousePurchase.instance.getConfig().addDefault("config.methodOfStorage", "database");
+        HousePurchase.instance.getConfig().addDefault("config.economy", "custom");
         HousePurchase.instance.getConfig().options().copyDefaults(true);
         HousePurchase.instance.saveConfig();
     }

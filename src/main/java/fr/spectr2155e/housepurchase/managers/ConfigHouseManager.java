@@ -4,13 +4,18 @@ import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
+import fr.spectr2155e.housepurchase.region.RegionMaker;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,18 +59,30 @@ public class ConfigHouseManager {
         saveConfigIdFile(file, id);
     }
 
-    public static void initHouses(){
+
+    public static void initHouses() throws ParseException {
         if(getListOfHouses() == null) return;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
         for(Integer id : getListOfHouses()){
             FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
+            Timestamp dateOfBuy = null;
+            if(file.getString("house.dateOfBuy") != null){
+                java.util.Date ftPlacedDateTime = dateFormat.parse(file.getString("house.dateOfBuy"));
+                dateOfBuy = new java.sql.Timestamp(ftPlacedDateTime.getTime());
+            }
+            Timestamp leaseDate = null;
+            if(file.getString("house.leaseDate") != null){
+                java.util.Date ftPlacedDateTime = dateFormat.parse(file.getString("house.leaseDate"));
+                leaseDate = new java.sql.Timestamp(ftPlacedDateTime.getTime());
+            }
             Houses.houses.put(id, new Houses(id,
                     file.getString("house.location"),
-                    file.getBoolean("isOwned"),
+                    file.getBoolean("house.isOwned"),
                     file.getString("house.owner"),
                     file.getBoolean("house.isBuy"),
-                    (Timestamp) file.get("house.dateOfBuy"),
+                    dateOfBuy,
                     file.getBoolean("house.isLease"),
-                    (Timestamp) file.get("house.leaseDate"),
+                    leaseDate,
                     file.getInt("house.priceOfBuy"),
                     file.getInt("house.priceOfLease"),
                     true, file.getString("house.trustedPlayers")));
@@ -81,6 +98,7 @@ public class ConfigHouseManager {
                         Utils.getJSONToLocation(file.getString("region.loc1")),
                         Utils.getJSONToLocation(file.getString("region.loc2")),
                         file.getString("region.name")));
+                RegionMaker.getInstance().getRegionManager().registerRegion(HousePurchase.instance, new Location(Bukkit.getWorld("world"), Utils.getJSONToLocation(file.getString("region.loc1")).getX(), Utils.getJSONToLocation(file.getString("region.loc1")).getY(), Utils.getJSONToLocation(file.getString("region.loc1")).getZ()), new Location(Bukkit.getWorld("world"), Utils.getJSONToLocation(file.getString("region.loc2")).getX(), Utils.getJSONToLocation(file.getString("region.loc2")).getY(), Utils.getJSONToLocation(file.getString("region.loc2")).getZ()), file.getString("region.name"), true);
             }
         }
     }
@@ -140,7 +158,7 @@ public class ConfigHouseManager {
         saveConfigIdFile(file, "list");
     }
 
-    private static void saveConfigIdFile(FileConfiguration file, int id){
+    public static void saveConfigIdFile(FileConfiguration file, int id){
         try {file.save(getIdFile(id));}
         catch (IOException e) {e.printStackTrace();}
     }
@@ -148,5 +166,16 @@ public class ConfigHouseManager {
     private static void saveConfigIdFile(FileConfiguration file, String str){
         try {file.save(getIdFile(str));}
         catch (IOException e) {e.printStackTrace();}
+    }
+
+    public static Houses getHouse(Location[] locations) {
+        for (int i : getListOfHouses()) {
+            YamlConfiguration yamlConfiguration = YamlConfiguration.loadConfiguration(getIdFile(i));
+            if(yamlConfiguration.getString("region.loc1") != null) {
+                if (yamlConfiguration.getString("region.loc1").equals(Utils.getLocationToJSON(locations[0])))
+                    return Houses.houses.get(i);
+            }
+        }
+        return null;
     }
 }

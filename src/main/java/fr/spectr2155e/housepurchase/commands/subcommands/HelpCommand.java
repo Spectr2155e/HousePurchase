@@ -2,6 +2,10 @@ package fr.spectr2155e.housepurchase.commands.subcommands;
 
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.commands.SubCommand;
+import fr.spectr2155e.housepurchase.objects.managers.Utils;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 
 public class HelpCommand extends SubCommand {
@@ -56,12 +60,15 @@ public class HelpCommand extends SubCommand {
         final String descTeleport = new TeleportCommand().getDescription();
         final String usageTeleport = new TeleportCommand().getUsage();
 
+
         // Message
-        player.sendMessage(usageInfo + ": " + descInfo);
-        player.sendMessage(usageRemoveHouse + ": " + descRemoveHouse);
-        player.sendMessage(usageRemoveRegion + ": " + descRemoveRegion);
-        player.sendMessage(usageSetBuyPrice + ": " + descSetBuyPrice);
-        player.sendMessage(usageSetLeasePrice + ": " + descSetLeasePrice);
-        player.sendMessage(usageTeleport + ": " + descTeleport);
+        player.sendMessage("§7§m|-------------§7| §6§lHousePurchase §7§m|-------------§7|");
+        player.sendMessage("");
+        player.spigot().sendMessage(Utils.createClickableCommand("§7Cliquez pour afficher la commande", usageInfo, usageInfo+" : "+descInfo));
+        player.spigot().sendMessage(Utils.createClickableCommand("§7Cliquez pour afficher la commande", usageRemoveHouse, usageRemoveHouse+" : "+descRemoveHouse));
+        player.spigot().sendMessage(Utils.createClickableCommand("§7Cliquez pour afficher la commande", usageRemoveRegion, usageRemoveRegion+" : "+descRemoveRegion));
+        player.spigot().sendMessage(Utils.createClickableCommand("§7Cliquez pour afficher la commande", usageSetBuyPrice, usageSetBuyPrice+" : "+descSetBuyPrice));
+        player.spigot().sendMessage(Utils.createClickableCommand("§7Cliquez pour afficher la commande", usageSetLeasePrice, usageSetLeasePrice+" : "+descSetLeasePrice));
+        player.spigot().sendMessage(Utils.createClickableCommand("§7Cliquez pour afficher la commande", usageTeleport, usageTeleport+" : "+descTeleport));
     }
 }

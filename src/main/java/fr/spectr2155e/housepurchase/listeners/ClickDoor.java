@@ -2,6 +2,7 @@ package fr.spectr2155e.housepurchase.listeners;
 
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.Houses;
+import fr.spectr2155e.housepurchase.managers.ConfigHouseManager;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import fr.spectr2155e.housepurchase.objects.minecraft.inventories.HouseGUINotOwner;
 import fr.spectr2155e.housepurchase.objects.minecraft.inventories.HouseGUIOwnerBuy;
@@ -70,7 +71,6 @@ public class ClickDoor implements Listener {
 
             // Si la maison n'est pas priorisé et qu'elle a été créé
             if(e.getPlayer().isSneaking()) {
-
                 // Ouverture du menu d'achat de maison
                 new HouseGUINotOwner().openInventoryWithLocation(e.getPlayer(), location);
                 e.setCancelled(true);
@@ -82,17 +82,32 @@ public class ClickDoor implements Listener {
     public void onJoin(PlayerJoinEvent e){
 
         // Boucle pour envoyer la date d'expiration de la maison
-        for(Integer id : Houses.housesList){
+        switch (HousePurchase.methodOfStorage){
+            case "file":
+                for(Integer id : ConfigHouseManager.getListOfHouses()){
+                    // Est ce que la maison a été loué
+                    if(Houses.houses.get(id).isLease()){
 
-            // Est ce que la maison a été loué
-            if(Houses.houses.get(id).isLease()){
-
-                // Is there a player who have the house
-                if(Houses.houses.get(id).getOwner().equals(e.getPlayer().getName())){
-                    e.getPlayer().sendMessage("§8§l(§a§lGouvernement§8§l) §fLa location de votre bien sous l'id §e"+id+" §fexpire le §a"
-                            + HousePurchase.utils.timeStampToStringDate(Houses.houses.get(id).getLeaseDate()));
+                        // Is there a player who have the house
+                        if(Houses.houses.get(id).getOwner().equals(e.getPlayer().getName())){
+                            e.getPlayer().sendMessage("§8§l(§a§lGouvernement§8§l) §fLa location de votre bien sous l'id §e"+id+" §fexpire le §a"
+                                    + HousePurchase.utils.timeStampToStringDate(Houses.houses.get(id).getLeaseDate()));
+                        }
+                    }
                 }
-            }
+                break;
+            case "database":
+                for(Integer id : Houses.housesList){
+                    // Est ce que la maison a été loué
+                    if(Houses.houses.get(id).isLease()){
+
+                        // Is there a player who have the house
+                        if(Houses.houses.get(id).getOwner().equals(e.getPlayer().getName())){
+                            e.getPlayer().sendMessage("§8§l(§a§lGouvernement§8§l) §fLa location de votre bien sous l'id §e"+id+" §fexpire le §a"
+                                    + HousePurchase.utils.timeStampToStringDate(Houses.houses.get(id).getLeaseDate()));
+                        }
+                    }
+                }
         }
     }
 }
