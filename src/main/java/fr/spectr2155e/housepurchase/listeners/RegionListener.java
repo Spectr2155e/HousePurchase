@@ -26,9 +26,9 @@ public class RegionListener implements Listener {
         //        || HouseRegion.getHouse(e.getRegion()).getOwner() == null && HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null)
         //        || HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
         //    e.setCancelled(true);
-        if(((HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
-        && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName()) && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName())))
-        || HouseRegion.getHouse(e.getRegion()).getOwner() == null && HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null){
+        if((HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()) && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName())) || HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null)
+                || (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName()) && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
+                || HouseRegion.getHouse(e.getRegion()).getOwner() == null && HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null){
             e.setCancelled(true);
         }
     }
@@ -50,8 +50,8 @@ public class RegionListener implements Listener {
         if(e.getPlayer().hasPermission("housepurchase.op")){
             return;
         }
-        if(((HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
-                && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName()) && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName())))
+        if((HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()) && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName())) || HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null)
+                || (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName()) && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
                 || HouseRegion.getHouse(e.getRegion()).getOwner() == null && HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null){
             e.setCancelled(true);
         }

@@ -2,7 +2,8 @@ name: HousePurchase
 version: '${version}'
 main: fr.spectr2155e.housepurchase.HousePurchase
 depend:
-  - Economy
+  - Essentials
+  - Vault
 commands:
   housepurchase:
     aliases: house, houses

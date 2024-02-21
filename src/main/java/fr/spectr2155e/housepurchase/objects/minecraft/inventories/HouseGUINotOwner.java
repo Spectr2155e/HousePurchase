@@ -12,6 +12,7 @@ import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -77,7 +78,7 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
                 return;
             }
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §fVous avez acheté la maison §e"+BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId()+"§f, §aFélicitations §f!");
-            EconomyManager.removeBankMoney(e.getWhoClicked().getName(), String.valueOf(BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getPriceOfBuy()), null);
+            HousePurchase.econ.withdrawPlayer((OfflinePlayer) e.getWhoClicked(), (double) BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getPriceOfBuy());
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
             HousesManager.buyHouse((Player) e.getWhoClicked(), BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId());

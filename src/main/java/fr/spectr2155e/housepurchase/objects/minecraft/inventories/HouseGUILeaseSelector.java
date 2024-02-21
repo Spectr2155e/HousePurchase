@@ -12,6 +12,7 @@ import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -98,7 +99,7 @@ public class HouseGUILeaseSelector implements CommonInventory, Listener {
                 e.getWhoClicked().closeInventory();
                 return;
             }
-            EconomyManager.removeBankMoney(e.getWhoClicked().getName(), String.valueOf(LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getPriceToPay()), null);
+            HousePurchase.econ.withdrawPlayer((OfflinePlayer) e.getWhoClicked(), (double) LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getPriceToPay());
             HousesManager.leaseHouse((Player) e.getWhoClicked(), LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getId());
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §fVous venez de louer cette maison pour §a"+LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getDayToPay()+"§fjour(s)");
             e.setCancelled(true);

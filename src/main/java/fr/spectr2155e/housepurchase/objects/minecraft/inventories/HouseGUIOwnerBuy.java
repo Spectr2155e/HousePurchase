@@ -2,6 +2,7 @@ package fr.spectr2155e.housepurchase.objects.minecraft.inventories;
 
 import fr.spectr2155e.economy.managers.EconomyManager;
 import fr.spectr2155e.housepurchase.HousePurchase;
+import fr.spectr2155e.housepurchase.classes.BuyHouse;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
@@ -9,6 +10,7 @@ import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -50,7 +52,14 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
         Inventory inventory = Bukkit.createInventory(player, 45, "Maison - Achat");
         inventory.setContents(HousePurchase.inventories.get("HouseGUIOwnerBuy"));
         inventory.setItem(40, HousePurchase.utils.getItem(Material.NAME_TAG, "§fID: §e"+Houses.getId(location), 0));
-        if(player.hasPermission("houses.remove")) inventory.setItem(44, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la maison", 0, "§7Cliquez afin de supprimer cette maison."));
+        if(player.hasPermission("houses.remove")){
+            inventory.setItem(44, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la maison", 0, "§7Cliquez afin de supprimer cette maison."));
+            if(!HouseRegion.regions.containsKey(Houses.getId(location))) {inventory.setItem(35, HousePurchase.utils.getItem(Material.FEATHER, "§6§lCréer la region", 0, "§7Cliquez afin de créer la region", "§7de cette maison."));}
+            else {
+                inventory.setItem(35, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la region", 0, "§7Cliquez afin de supprimer la region", "§7de cette maison."));
+                inventory.setItem(26, HousePurchase.utils.getItem(Material.FEATHER, "§6§lAjouter une region", 0, "§7Cliquez afin d'ajouter une region", "§7à cette maison."));
+            }
+        }
         inventory.setItem(20, HousePurchase.utils.getItem(Material.SLIME_BALL, "§a§lPrix de la maison", 0, "§7La maison coûte §a"+ HousePurchase.numberFormat.format(Houses.houses.get(Houses.getId(location)).getPriceOfBuy())+"€"));
         inventory.setItem(24, HousePurchase.utils.getItem(Material.EMPTY_MAP, "§7§lQuartier", 0)); // Quartier
         inventory.setItem(38, HousePurchase.utils.getItem(Material.SKULL_ITEM, "§7§lMembres", 0, "§7Cliquez afin d'ajouter une personne de confiance."));
@@ -169,7 +178,8 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
             e.getWhoClicked().closeInventory();
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lVendre la maison")){
-            EconomyManager.addBankMoney(e.getWhoClicked().getName(), String.valueOf(Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getPriceOfBuy()*70/100), null);
+            //EconomyManager.addBankMoney(e.getWhoClicked().getName(), String.valueOf(Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getPriceOfBuy()*70/100), null);
+            HousePurchase.econ.depositPlayer((OfflinePlayer) e.getWhoClicked(), (double) Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getPriceOfBuy()*70/100);
             HousesManager.unLeaseHouse(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked())));
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez vendu votre maison.");
             e.setCancelled(true);
@@ -180,6 +190,21 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez arrêter la location de la maison.");
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
+        }
+        if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§6§lCréer la region")){
+            new HouseGUICreationRegion().openInventoryWithLocation((Player) e.getWhoClicked(), locationOfDoor.get((Player) e.getWhoClicked()));
+            e.setCancelled(true);
+        }
+        if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lSupprimer la region")){
+            HouseRegion.removeRegion(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked())));
+            e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez supprimé la region de la maison.");
+            e.setCancelled(true);
+            e.getWhoClicked().closeInventory();
+        }
+        if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§6§lAjouter une region")){
+            new HouseGUICreationRegion().openInventoryWithLocation((Player) e.getWhoClicked(), locationOfDoor.get((Player) e.getWhoClicked()));
+            HouseRegion.registerRegion((Player) e.getWhoClicked(), "name", null, HouseRegion.regions.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getName());
+            e.setCancelled(true);
         }
     }
 }

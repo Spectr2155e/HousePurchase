@@ -42,7 +42,7 @@ public final class HousePurchase extends JavaPlugin {
 
     public static String methodOfStorage;
     public static String economyMode;
-    public static Economy econ;
+    public static net.milkbowl.vault.economy.Economy econ;
 
     @Override
     public void onEnable() {
@@ -90,8 +90,8 @@ public final class HousePurchase extends JavaPlugin {
 
     private void initEconomyMode(){
         String configEconomyMode = getConfig().getString("config.economy");
-        if(!configEconomyMode.equals("vault") && !configEconomyMode.equals("custom")){
-            System.out.println("§4Erreur de l'initialisation de la méthode d'economy, veillez à bien avoir préciser vault ou custom dans la config du plugin.");
+        if(!configEconomyMode.equals("vault")){
+            System.out.println("§4Erreur de l'initialisation de la méthode d'economy, veillez à bien avoir préciser vault dans la config du plugin.");
             getServer().shutdown();
             return;
         }
@@ -102,10 +102,12 @@ public final class HousePurchase extends JavaPlugin {
         }
         economyMode = configEconomyMode;
 
+
     }
 
     private Boolean setupEconomy() {
-        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager()
+                .getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             econ = economyProvider.getProvider();
             return true;

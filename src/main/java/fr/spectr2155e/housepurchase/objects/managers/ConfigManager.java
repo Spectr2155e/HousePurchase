@@ -13,8 +13,8 @@ public class ConfigManager {
         HousePurchase.instance.getConfig().addDefault("database.password", "password");
         HousePurchase.instance.getConfig().addDefault("database.dbName", "housepurchase");
         HousePurchase.instance.getConfig().addDefault("database.port", 3306);
-        HousePurchase.instance.getConfig().addDefault("config.methodOfStorage", "database");
-        HousePurchase.instance.getConfig().addDefault("config.economy", "custom");
+        HousePurchase.instance.getConfig().addDefault("config.methodOfStorage", "file");
+        HousePurchase.instance.getConfig().addDefault("config.economy", "vault");
         HousePurchase.instance.getConfig().options().copyDefaults(true);
         HousePurchase.instance.saveConfig();
     }
