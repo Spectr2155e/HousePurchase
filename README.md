@@ -22,3 +22,7 @@
 
 * 🔒 Verouille ta porte pour que personne ne puisse y rentrer
 * 🔐 Déverouille là pour l'ouvrir au grand public !
+
+# Credits
+
+* @CanardConfit pour son plugin de RegionMaker
