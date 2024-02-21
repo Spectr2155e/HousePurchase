@@ -25,4 +25,4 @@
 
 # Credits
 
-* github.com/CanardConfit -> Plugin de RegionMaker
+* @CanardConfit pour son plugin de RegionMaker
