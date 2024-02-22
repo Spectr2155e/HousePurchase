@@ -18,14 +18,9 @@ public class RegionListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(RegionBlockBreakEvent e) {
-        if(e.getPlayer().hasPermission("housepurchase.op")){
+        if(e.getPlayer().hasPermission("housepurchase.blockBreakRegion")){
             return;
         }
-        //if (((HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
-        //        && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName()))
-        //        || HouseRegion.getHouse(e.getRegion()).getOwner() == null && HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null)
-        //        || HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
-        //    e.setCancelled(true);
         if((HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()) && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName())) || HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
                 || (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName()) && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
                 || HouseRegion.getHouse(e.getRegion()).getOwner() == null && HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null){
@@ -35,12 +30,9 @@ public class RegionListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(RegionBlockPlaceEvent e) {
-        if(e.getPlayer().hasPermission("housepurchase.op")){
+        if(e.getPlayer().hasPermission("housepurchase.blockPlaceRegion")){
             return;
         }
-        System.out.println(HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()) && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName())) || HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()));
-        System.out.println(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName()) && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()));
-        System.out.println(HouseRegion.getHouse(e.getRegion()).getOwner() == null && HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null);
         if((HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()) && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName())) || HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
                 || (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName()) && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))
                 || HouseRegion.getHouse(e.getRegion()).getOwner() == null && HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null){
@@ -50,7 +42,7 @@ public class RegionListener implements Listener {
 
     @EventHandler
     public void onBlockInteract(RegionInteractEvent e) {
-        if(e.getPlayer().hasPermission("housepurchase.op")){
+        if(e.getPlayer().hasPermission("housepurchase.blockInteractRegion")){
             return;
         }
         if((HouseRegion.getHouse(e.getRegion()).getOwner() != null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()) && (HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() != null && !DatabaseHouseManager.getArrayFromJson(HouseRegion.getHouse(e.getRegion()).getTrustedPlayers()).contains(e.getPlayer().getName())) || HouseRegion.getHouse(e.getRegion()).getTrustedPlayers() == null && !HouseRegion.getHouse(e.getRegion()).getOwner().equals(e.getPlayer().getName()))

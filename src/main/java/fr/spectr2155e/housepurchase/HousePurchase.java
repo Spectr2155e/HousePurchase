@@ -38,30 +38,24 @@ public final class HousePurchase extends JavaPlugin {
     public static Utils utils = new Utils();
     public static HashMap<String, ItemStack[]> inventories = new HashMap<>();
     public static final NumberFormat numberFormat = NumberFormat.getInstance(Locale.ENGLISH);
-    private static DatabaseManager databaseManager;
+    public static DatabaseManager databaseManager;
     public static DatabaseManager getDatabaseManager() {return databaseManager;}
-
     public static String methodOfStorage;
-    public static String economyMode;
     public static net.milkbowl.vault.economy.Economy econ;
 
     @Override
     public void onEnable() {
         instance = this;
-        initMethodOfStorage();
+        ConfigManager.initMethodOfStorage();
         if(EconomyHouseManager.initEconomyMode() != null) econ = EconomyHouseManager.initEconomyMode().getProvider();
         regionMaker.enable();
         configManager.initConfig();
-        System.out.println("HousePurchase activé ! Version 1.0");
         listenerManager.initListeners();
         commandsManager.initCommands();
-        try {
-            Houses.initHouses();
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        try {Houses.initHouses();} catch (ParseException e) {throw new RuntimeException(e);}
         HouseRegion.initRegions();
         LeaseHouse.initTimer();
+        System.out.println("Plugin créé par Spectr2155e (HousePurchase) activé version "+ConfigManager.getVersion());
     }
 
     @Override
@@ -71,22 +65,9 @@ public final class HousePurchase extends JavaPlugin {
         regionMaker.disable();
     }
 
-    private void initAllTables(){
+    public void initAllTables(){
         try {getDatabaseManager().initTables();}
         catch (SQLException e) {throw new RuntimeException(e);}
-    }
-    private void initMethodOfStorage(){
-        String configMethodOfStorage = getConfig().getString("config.methodOfStorage");
-        if(!configMethodOfStorage.equals("database") && !configMethodOfStorage.equals("file")){
-            System.out.println("§4Erreur de l'initialisation de la méthode de stockage, veillez à bien avoir préciser file ou mysql dans la config du plugin.");
-            getServer().shutdown();
-            return;
-        }
-        methodOfStorage = configMethodOfStorage;
-        if(methodOfStorage.equals("database")) {
-            databaseManager = new DatabaseManager();
-            initAllTables();
-        }
     }
 
 }

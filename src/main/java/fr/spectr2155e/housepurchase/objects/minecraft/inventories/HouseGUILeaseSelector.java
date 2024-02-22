@@ -47,7 +47,7 @@ public class HouseGUILeaseSelector implements CommonInventory, Listener {
         }
         Inventory inventory = Bukkit.createInventory(player, 45, "Maison - Location");
         inventory.setContents(HousePurchase.inventories.get("HouseGUILeaseSelector"));
-        if(player.hasPermission("houses.remove")) inventory.setItem(44, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la maison", 0, "§7Cliquez afin de supprimer cette maison."));
+        if(player.hasPermission("housepurchase.remove")) inventory.setItem(44, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la maison", 0, "§7Cliquez afin de supprimer cette maison."));
         LeaseHouse.leaseHouse.put(player, new LeaseHouse(player, Houses.getId(location),
                 Houses.houses.get(Houses.getId(location)).getPriceOfLease(),
                 Houses.houses.get(Houses.getId(location)).getPriceOfLease(),

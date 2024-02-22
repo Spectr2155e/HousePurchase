@@ -44,16 +44,12 @@ public class RegionMaker {
 	 */
 	public void enable() {
 		instance = this;
-		
-		getServer().getConsoleSender().sendMessage(PREFIX + " �eVersion �a" + getServer().getBukkitVersion() + " �eof the Server.");
 
 		//Creation of new RegionManager
 		rm = new RegionManager();
 
 		//Register listener class
 		Bukkit.getPluginManager().registerEvents(new RegionListener(rm), HousePurchase.instance);
-		
-		Bukkit.getConsoleSender().sendMessage(PREFIX + " �ePlugin library by CanardConfit is enabled !");
 		
 		//Class for testing events and function of the plugin
 		//Bukkit.getPluginManager().registerEvents(new TestRegion(), this);
@@ -64,7 +60,6 @@ public class RegionMaker {
 	 */
 	public void disable() {
 		instance = null;
-		getServer().getConsoleSender().sendMessage(PREFIX + " �ePlugin library by CanardConfit is disabled !");
 	}
 	
 	

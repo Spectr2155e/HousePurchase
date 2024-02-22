@@ -40,7 +40,7 @@ public class ClickDoor implements Listener {
                 if(!e.getPlayer().isSneaking()) return;
 
                 // Vérification de la permission du joueur
-                if(!e.getPlayer().hasPermission("house.createHouse")) {return;}
+                if(!e.getPlayer().hasPermission("housepurchase.createHouse")) {return;}
 
                 // Est ce que la porte est présente à la position.
                 if(e.getClickedBlock().getLocation().add(0,1,0).getBlock().getType().equals(Material.WOODEN_DOOR)) {

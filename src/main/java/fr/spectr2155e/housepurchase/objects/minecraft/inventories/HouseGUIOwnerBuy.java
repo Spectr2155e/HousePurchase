@@ -53,7 +53,7 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
         Inventory inventory = Bukkit.createInventory(player, 45, "Maison - Achat");
         inventory.setContents(HousePurchase.inventories.get("HouseGUIOwnerBuy"));
         inventory.setItem(40, HousePurchase.utils.getItem(Material.NAME_TAG, "§fID: §e"+Houses.getId(location), 0));
-        if(player.hasPermission("houses.remove")){
+        if(player.hasPermission("housepurchase.remove")){
             inventory.setItem(44, HousePurchase.utils.getItem(Material.BARRIER, "§c§lSupprimer la maison", 0, "§7Cliquez afin de supprimer cette maison."));
             if(!HouseRegion.regions.containsKey(Houses.getId(location))) {inventory.setItem(35, HousePurchase.utils.getItem(Material.FEATHER, "§6§lCréer la region", 0, "§7Cliquez afin de créer la region", "§7de cette maison."));}
             else {
