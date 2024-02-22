@@ -6,6 +6,7 @@ import fr.spectr2155e.housepurchase.classes.BuyHouse;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
+import fr.spectr2155e.housepurchase.managers.EconomyHouseManager;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -179,7 +180,7 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lVendre la maison")){
             //EconomyManager.addBankMoney(e.getWhoClicked().getName(), String.valueOf(Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getPriceOfBuy()*70/100), null);
-            HousePurchase.econ.depositPlayer((OfflinePlayer) e.getWhoClicked(), (double) Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getPriceOfBuy()*70/100);
+            EconomyHouseManager.giveMoney((Player) e.getWhoClicked(), Houses.houses.get(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked()))).getPriceOfBuy()*70/100);
             HousesManager.unLeaseHouse(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked())));
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez vendu votre maison.");
             e.setCancelled(true);

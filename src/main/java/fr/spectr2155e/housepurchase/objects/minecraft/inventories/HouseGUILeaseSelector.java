@@ -99,7 +99,7 @@ public class HouseGUILeaseSelector implements CommonInventory, Listener {
                 e.getWhoClicked().closeInventory();
                 return;
             }
-            HousePurchase.econ.withdrawPlayer((OfflinePlayer) e.getWhoClicked(), (double) LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getPriceToPay());
+            EconomyHouseManager.withdrawMoney((Player) e.getWhoClicked(), LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getPriceToPay());
             HousesManager.leaseHouse((Player) e.getWhoClicked(), LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getId());
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §fVous venez de louer cette maison pour §a"+LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getDayToPay()+"§fjour(s)");
             e.setCancelled(true);

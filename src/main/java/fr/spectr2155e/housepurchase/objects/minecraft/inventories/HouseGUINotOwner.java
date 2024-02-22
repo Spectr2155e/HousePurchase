@@ -78,7 +78,7 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
                 return;
             }
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §fVous avez acheté la maison §e"+BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId()+"§f, §aFélicitations §f!");
-            HousePurchase.econ.withdrawPlayer((OfflinePlayer) e.getWhoClicked(), (double) BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getPriceOfBuy());
+            EconomyHouseManager.withdrawMoney((Player) e.getWhoClicked(), BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getPriceOfBuy());
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
             HousesManager.buyHouse((Player) e.getWhoClicked(), BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId());
