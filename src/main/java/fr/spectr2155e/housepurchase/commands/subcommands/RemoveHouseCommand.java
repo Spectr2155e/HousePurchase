@@ -7,6 +7,8 @@ import fr.spectr2155e.housepurchase.commands.SubCommand;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
+
 public class RemoveHouseCommand extends SubCommand {
     @Override
     public String getName() {
@@ -39,7 +41,11 @@ public class RemoveHouseCommand extends SubCommand {
             player.sendMessage(HousePurchase.prefixError+"La maison comportant cet id est introuvable.");
             return;
         }
-        Houses.removeHouse(id);
+        try {
+            Houses.removeHouse(id, player);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         HouseRegion.removeRegion(id);
         player.sendMessage(HousePurchase.prefixHousePurchase+"La maison sous l'id "+id+" a été supprimé.");
     }

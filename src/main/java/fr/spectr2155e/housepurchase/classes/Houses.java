@@ -12,8 +12,10 @@ import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -65,27 +67,26 @@ public class Houses {
         }
     }
 
-    public static void createHouse(Location location, int priceOfBuy, int priceOfLease){
+    public static void createHouse(Location location, int priceOfBuy, int priceOfLease, Player creator) throws IOException {
         int randomNumber = Utils.getRandomNumberInRange(100000, 1000000);
         while(houses.containsKey(randomNumber)){randomNumber = Utils.getRandomNumberInRange(100000, 1000000);}
         switch (HousePurchase.methodOfStorage){
             case "file":
-                ConfigHouseManager.createHouse(randomNumber, location, priceOfBuy, priceOfLease);
+                ConfigHouseManager.createHouse(randomNumber, location, priceOfBuy, priceOfLease, creator);
                 break;
             case "database":
-                DatabaseHouseManager.createHouse(randomNumber, location, priceOfBuy, priceOfLease);
+                DatabaseHouseManager.createHouse(randomNumber, location, priceOfBuy, priceOfLease, creator);
                 break;
         }
     }
 
-    public static void removeHouse(int id){
-        if(houses.containsKey(id)){houses.remove(id);}
+    public static void removeHouse(int id, Player deleter) throws IOException {
         switch (HousePurchase.methodOfStorage){
             case "file":
-                ConfigHouseManager.removeHouse(id);
+                ConfigHouseManager.removeHouse(id, deleter);
                 break;
             case "database":
-                DatabaseHouseManager.removeHouse(id);
+                DatabaseHouseManager.removeHouse(id, deleter);
                 break;
         }
     }

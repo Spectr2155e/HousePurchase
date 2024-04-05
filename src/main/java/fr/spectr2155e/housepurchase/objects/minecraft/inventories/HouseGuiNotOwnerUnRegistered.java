@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class HouseGuiNotOwnerUnRegistered implements CommonInventory, Listener {
@@ -67,7 +68,7 @@ public class HouseGuiNotOwnerUnRegistered implements CommonInventory, Listener {
     }
 
     @EventHandler
-    public void onChat(AsyncPlayerChatEvent e){
+    public void onChat(AsyncPlayerChatEvent e) throws IOException {
         if(!CreationHouse.playerCreationHouseHashMap.containsKey(e.getPlayer())) return;
         if(e.getMessage().equalsIgnoreCase("cancel")) {
             e.getPlayer().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez arrêté la création de la maison.");
@@ -91,7 +92,8 @@ public class HouseGuiNotOwnerUnRegistered implements CommonInventory, Listener {
             e.getPlayer().sendMessage("§8§l[§6§lHousePurchase§8§l] §fLa maison est désormais créé, le prix de location est désormais défini à §a"+CreationHouse.playerCreationHouseHashMap.get(e.getPlayer()).getPriceOfLease()+"€");
             Houses.createHouse(CreationHouse.playerCreationHouseHashMap.get(e.getPlayer()).getLocation(),
                     CreationHouse.playerCreationHouseHashMap.get(e.getPlayer()).getPriceOfBuy(),
-                    CreationHouse.playerCreationHouseHashMap.get(e.getPlayer()).getPriceOfLease());
+                    CreationHouse.playerCreationHouseHashMap.get(e.getPlayer()).getPriceOfLease(),
+                    e.getPlayer());
             e.setCancelled(true);
             CreationHouse.playerCreationHouseHashMap.remove(e.getPlayer());
         }

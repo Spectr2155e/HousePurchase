@@ -16,6 +16,7 @@ public class ConfigManager {
         HousePurchase.instance.getConfig().addDefault("database.port", 3306);
         HousePurchase.instance.getConfig().addDefault("config.methodOfStorage", "file");
         HousePurchase.instance.getConfig().addDefault("config.economy", "vault");
+        HousePurchase.instance.getConfig().addDefault("config.discordLogs", "false");
         HousePurchase.instance.getConfig().addDefault("config.version", "1.3");
         HousePurchase.instance.getConfig().options().copyDefaults(true);
         HousePurchase.instance.saveConfig();

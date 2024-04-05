@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.List;
 public class ConfigHouseManager {
     static File houseFolder = new File(HousePurchase.instance.getDataFolder(), "Houses");
 
-    public static void createHouse(int id, Location location, int priceOfBuy, int priceOfLease){
+    public static void createHouse(int id, Location location, int priceOfBuy, int priceOfLease, Player creator) throws IOException {
         checkDir();
         createIdFile(id);
         FileConfiguration file = YamlConfiguration.loadConfiguration(getIdFile(id));
@@ -40,6 +41,7 @@ public class ConfigHouseManager {
         addIdToList(id);
         saveConfigIdFile(file, id);
         Houses.houses.put(id, new Houses(id, Utils.getLocationToJSON(location), false, null, false, null, false, null, priceOfBuy, priceOfLease, true, null));
+        WebhookHouseManager.createWebHook("createHouse", creator, id);
     }
 
     public static void createRegion(int id, Location loc1, Location loc2, String name){
@@ -103,8 +105,10 @@ public class ConfigHouseManager {
         }
     }
 
-    public static void removeHouse(int id){
+    public static void removeHouse(int id, Player deleter) throws IOException {
+        WebhookHouseManager.createWebHook("removeHouse", deleter, id);
         removeIdFile(id);
+        if(Houses.houses.containsKey(id)){Houses.houses.remove(id);}
     }
 
     private static void checkDir(){

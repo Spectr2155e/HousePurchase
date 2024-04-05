@@ -11,8 +11,10 @@ import fr.spectr2155e.housepurchase.region.RegionMaker;
 import fr.spectr2155e.housepurchase.region.manager.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +22,7 @@ import java.util.List;
 
 public class DatabaseHouseManager {
 
-    public static void createHouse(int id, Location location, int priceOfBuy, int priceOfLease) {
+    public static void createHouse(int id, Location location, int priceOfBuy, int priceOfLease, Player creator) throws IOException {
         Houses.housesList.add(id);
         final String sqlRequest = "INSERT INTO house_purchase VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         new BukkitRunnable(){
@@ -42,7 +44,10 @@ public class DatabaseHouseManager {
                     preparedStatement.setString(11, null);
                     preparedStatement.execute();
                     Houses.houses.put(id, new Houses(id, Utils.getLocationToJSON(location), false, null, false, null, false, null, priceOfBuy, priceOfLease, true, null));
-                } catch (SQLException e) {throw new RuntimeException(e);}
+                    WebhookHouseManager.createWebHook("createHouse", creator, id);
+                } catch (SQLException e) {throw new RuntimeException(e);} catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }.runTaskAsynchronously(HousePurchase.instance);
     }
@@ -118,7 +123,10 @@ public class DatabaseHouseManager {
         Query.requestUpdate("DELETE FROM house_regions WHERE ID = "+id);
     }
 
-    public static void removeHouse(int id){
+    public static void removeHouse(int id, Player deleter) throws IOException {
+        WebhookHouseManager.createWebHook("removeHouse", deleter, id);
+        if(Houses.houses.containsKey(id)){Houses.houses.remove(id);}
+        Query.requestUpdate("DELETE FROM house_purchase WHERE ID = "+id);
         int index = 0;
         for(int i : Houses.housesList){
             if(i == id){
@@ -127,7 +135,6 @@ public class DatabaseHouseManager {
             }
             index++;
         }
-        Query.requestUpdate("DELETE FROM house_purchase WHERE ID = "+id);
     }
 
     public static String getJsonFromArray(List<String> arrayList){

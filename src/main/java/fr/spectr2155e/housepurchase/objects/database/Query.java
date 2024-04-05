@@ -9,6 +9,7 @@ import java.sql.Statement;
 
 public class Query {
     public static void requestUpdate(String sqlRequest){
+        System.out.println("test");
         Bukkit.getScheduler().runTaskAsynchronously(HousePurchase.instance, () -> {
             try {
                 final Connection connection = DatabaseManager.getHouseConnection().getConnection();

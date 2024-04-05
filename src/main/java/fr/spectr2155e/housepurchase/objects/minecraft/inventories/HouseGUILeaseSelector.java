@@ -19,6 +19,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class HouseGUILeaseSelector implements CommonInventory, Listener {
@@ -57,7 +58,7 @@ public class HouseGUILeaseSelector implements CommonInventory, Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent e){
+    public void onClick(InventoryClickEvent e) throws IOException {
         if(e.getCurrentItem() == null) return;
         if(!e.getInventory().getName().equals("Maison - Location")) return;
         if(!e.getCurrentItem().getType().equals(Material.WOOD_BUTTON) && !e.getCurrentItem().getType().equals(Material.BARRIER)) e.setCancelled(true);
@@ -86,7 +87,7 @@ public class HouseGUILeaseSelector implements CommonInventory, Listener {
             e.getClickedInventory().setItem(13, HousePurchase.utils.getItem(Material.PAPER, "§7§lPrix à payer: §a"+LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getPriceToPay()+"€", 0, "§7Cela représente §a"+LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getDayToPay()+" §7jour(s) à payer."));
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lSupprimer la maison")){
-            Houses.removeHouse(LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getId());
+            Houses.removeHouse(LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getId(), (Player) e.getWhoClicked());
             HouseRegion.removeRegion(LeaseHouse.leaseHouse.get((Player) e.getWhoClicked()).getId());
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez supprimé la maison.");
             e.setCancelled(true);

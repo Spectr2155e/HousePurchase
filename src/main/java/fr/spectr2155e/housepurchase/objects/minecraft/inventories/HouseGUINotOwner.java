@@ -19,6 +19,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.io.IOException;
+
 public class HouseGUINotOwner implements CommonInventory, Listener {
 
     Inventory inventory;
@@ -64,7 +66,7 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent e){
+    public void onClick(InventoryClickEvent e) throws IOException {
         if(e.getCurrentItem() == null) return;
         if(!e.getInventory().getName().equals("Maison - Achat/Location")) return;
         if(!e.getCurrentItem().getType().equals(Material.FEATHER) && !e.getCurrentItem().getType().equals(Material.SLIME_BALL) && !e.getCurrentItem().getType().equals(Material.BARRIER)) e.setCancelled(true);
@@ -88,7 +90,7 @@ public class HouseGUINotOwner implements CommonInventory, Listener {
             new HouseGUILeaseSelector().openInventoryWithLocation((Player) e.getWhoClicked(), BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getLocation());
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lSupprimer la maison")){
-            Houses.removeHouse(BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId());
+            Houses.removeHouse(BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId(), (Player) e.getWhoClicked());
             HouseRegion.removeRegion(BuyHouse.buyHouse.get((Player) e.getWhoClicked()).getId());
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez supprimé la maison.");
             e.setCancelled(true);

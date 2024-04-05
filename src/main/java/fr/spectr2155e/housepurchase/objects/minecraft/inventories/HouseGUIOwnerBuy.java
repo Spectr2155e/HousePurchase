@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class HouseGUIOwnerBuy implements CommonInventory, Listener {
@@ -110,7 +111,7 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent e){
+    public void onClick(InventoryClickEvent e) throws IOException {
         if(e.getCurrentItem() == null) return;
         if(!e.getInventory().getName().equals("Maison - Achat")) return;
         if(!e.getCurrentItem().getType().equals(Material.REDSTONE) && !e.getCurrentItem().getType().equals(Material.TRIPWIRE_HOOK) && !e.getCurrentItem().getType().equals(Material.BARRIER)) e.setCancelled(true);
@@ -173,7 +174,7 @@ public class HouseGUIOwnerBuy implements CommonInventory, Listener {
         }
         if(e.getCurrentItem().getItemMeta().getDisplayName().equals("§c§lSupprimer la maison")){
             HouseRegion.removeRegion(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked())));
-            Houses.removeHouse(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked())));
+            Houses.removeHouse(Houses.getId(locationOfDoor.get((Player) e.getWhoClicked())), (Player) e.getWhoClicked());
             e.getWhoClicked().sendMessage("§8§l[§6§lHousePurchase§8§l] §cVous avez supprimé la maison.");
             e.setCancelled(true);
             e.getWhoClicked().closeInventory();
