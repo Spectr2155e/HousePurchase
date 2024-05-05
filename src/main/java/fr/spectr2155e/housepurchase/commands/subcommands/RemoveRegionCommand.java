@@ -2,7 +2,6 @@ package fr.spectr2155e.housepurchase.commands.subcommands;
 
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
-import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.commands.SubCommand;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.entity.Player;

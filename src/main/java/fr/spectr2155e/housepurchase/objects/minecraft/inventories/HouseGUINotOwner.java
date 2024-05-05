@@ -1,18 +1,14 @@
 package fr.spectr2155e.housepurchase.objects.minecraft.inventories;
 
-import fr.spectr2155e.economy.classes.EconomyClass;
-import fr.spectr2155e.economy.managers.EconomyManager;
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.BuyHouse;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
-import fr.spectr2155e.housepurchase.classes.LeaseHouse;
 import fr.spectr2155e.housepurchase.managers.EconomyHouseManager;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

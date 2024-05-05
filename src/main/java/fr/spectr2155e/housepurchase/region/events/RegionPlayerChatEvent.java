@@ -1,11 +1,11 @@
 package fr.spectr2155e.housepurchase.region.events;
 
-import java.util.Set;
-
 import fr.spectr2155e.housepurchase.region.tools.Region;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import java.util.Set;
 
 
 

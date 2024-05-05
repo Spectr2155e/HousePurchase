@@ -4,7 +4,6 @@ import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.HouseAddTrustedPlayers;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
-import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;

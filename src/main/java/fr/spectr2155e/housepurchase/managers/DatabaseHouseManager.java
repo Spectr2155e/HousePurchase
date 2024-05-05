@@ -8,7 +8,6 @@ import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.database.Query;
 import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import fr.spectr2155e.housepurchase.region.RegionMaker;
-import fr.spectr2155e.housepurchase.region.manager.RegionManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

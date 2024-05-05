@@ -4,20 +4,13 @@ package fr.spectr2155e.housepurchase.classes;
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.managers.ConfigHouseManager;
 import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
-import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
-import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import fr.spectr2155e.housepurchase.region.RegionMaker;
-import fr.spectr2155e.housepurchase.region.manager.RegionManager;
 import fr.spectr2155e.housepurchase.region.tools.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 
 public class HouseRegion {

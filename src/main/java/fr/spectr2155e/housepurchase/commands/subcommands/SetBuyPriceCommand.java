@@ -4,7 +4,6 @@ import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.commands.SubCommand;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
-import fr.spectr2155e.housepurchase.objects.managers.Utils;
 import org.bukkit.entity.Player;
 
 public class SetBuyPriceCommand extends SubCommand {

@@ -1,16 +1,11 @@
 package fr.spectr2155e.housepurchase.region.listener;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import fr.spectr2155e.housepurchase.HousePurchase;
-import fr.spectr2155e.housepurchase.region.RegionMaker;
 import fr.spectr2155e.housepurchase.region.events.*;
 import fr.spectr2155e.housepurchase.region.manager.RegionManager;
 import fr.spectr2155e.housepurchase.region.tools.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -22,11 +17,13 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <b>Class to check the plugin's vents and run them at the right time</b>

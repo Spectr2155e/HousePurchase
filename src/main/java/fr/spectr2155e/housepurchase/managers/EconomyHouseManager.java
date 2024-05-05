@@ -1,12 +1,9 @@
 package fr.spectr2155e.housepurchase.managers;
 
-import fr.spectr2155e.economy.classes.EconomyClass;
-import fr.spectr2155e.economy.managers.EconomyManager;
 import fr.spectr2155e.housepurchase.HousePurchase;
-import fr.spectr2155e.housepurchase.classes.LeaseHouse;
+import fr.spectr2155e.slegacy.EconomyAPI;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -20,7 +17,7 @@ public class EconomyHouseManager {
             case "vault":
                 return HousePurchase.econ.getBalance(player) >= money;
             case "custom":
-                return EconomyClass.economyUsers.get(player.getName()).getBankMoney() >= money;
+                return EconomyAPI.getPlayerEconomy(player).hasEnoughMoneyInBank(money);
         }
         return false;
     }
@@ -28,10 +25,10 @@ public class EconomyHouseManager {
     public static void withdrawMoney(Player player, int money){
         switch (economyMode){
             case "vault":
-                HousePurchase.econ.withdrawPlayer(player, (double) money);
+                HousePurchase.econ.withdrawPlayer(player, money);
                 break;
             case "custom":
-                EconomyManager.removeBankMoney(player.getName(), String.valueOf(money), null);
+                EconomyAPI.getPlayerEconomy(player).removeBankMoney(money);
                 break;
         }
     }
@@ -39,10 +36,10 @@ public class EconomyHouseManager {
     public static void giveMoney(Player player, int money){
         switch (economyMode){
             case "vault":
-                HousePurchase.econ.depositPlayer(player, (double) money);
+                HousePurchase.econ.depositPlayer(player, money);
                 break;
             case "custom":
-                EconomyManager.addBankMoney(player.getName(), String.valueOf(money), null);
+                EconomyAPI.getPlayerEconomy(player).addBankMoney(money);
                 break;
         }
     }
@@ -60,11 +57,12 @@ public class EconomyHouseManager {
             Bukkit.getPluginManager().disablePlugin(HousePurchase.instance);
             HousePurchase.instance.getServer().shutdown();
             return null;
-        } else {
+        } else if(configEconomyMode.equals("vault")){
             RegisteredServiceProvider<Economy> economyProvider = HousePurchase.instance.getServer().getServicesManager()
                     .getRegistration(net.milkbowl.vault.economy.Economy.class);
             return economyProvider;
         }
+        return null;
     }
 
     public static Boolean setupEconomy() {

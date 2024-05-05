@@ -4,7 +4,6 @@ import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.commands.subcommands.*;
 import fr.spectr2155e.housepurchase.managers.ConfigHouseManager;
-import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

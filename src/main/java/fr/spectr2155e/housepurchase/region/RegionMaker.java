@@ -5,8 +5,6 @@ import fr.spectr2155e.housepurchase.region.listener.RegionListener;
 import fr.spectr2155e.housepurchase.region.manager.RegionManager;
 import org.bukkit.Bukkit;
 
-import static org.bukkit.Bukkit.getServer;
-
 
 /**
  * <b>RegionMaker is the main class of the library</b>

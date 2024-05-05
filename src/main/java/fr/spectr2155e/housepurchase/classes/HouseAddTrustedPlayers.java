@@ -3,7 +3,6 @@ package fr.spectr2155e.housepurchase.classes;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class HouseAddTrustedPlayers {
     public static HashMap<Player, HouseAddTrustedPlayers> houseAddTrustedPlayersHashMap = new HashMap<>();

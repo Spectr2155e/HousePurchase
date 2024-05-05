@@ -6,8 +6,6 @@ import fr.spectr2155e.housepurchase.commands.SubCommand;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import org.bukkit.entity.Player;
 
-import java.sql.Timestamp;
-
 public class InformationCommand extends SubCommand {
 
     @Override

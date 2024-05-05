@@ -4,25 +4,17 @@ package fr.spectr2155e.housepurchase;
 import fr.spectr2155e.housepurchase.classes.HouseRegion;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.classes.LeaseHouse;
-import fr.spectr2155e.housepurchase.commands.CommandManager;
 import fr.spectr2155e.housepurchase.managers.EconomyHouseManager;
 import fr.spectr2155e.housepurchase.objects.database.DatabaseManager;
 import fr.spectr2155e.housepurchase.objects.managers.*;
 import fr.spectr2155e.housepurchase.region.RegionMaker;
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 public final class HousePurchase extends JavaPlugin {
@@ -47,10 +39,10 @@ public final class HousePurchase extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        configManager.initConfig();
         ConfigManager.initMethodOfStorage();
         if(EconomyHouseManager.initEconomyMode() != null) econ = EconomyHouseManager.initEconomyMode().getProvider();
         regionMaker.enable();
-        configManager.initConfig();
         listenerManager.initListeners();
         commandsManager.initCommands();
         try {Houses.initHouses();} catch (ParseException e) {throw new RuntimeException(e);}
