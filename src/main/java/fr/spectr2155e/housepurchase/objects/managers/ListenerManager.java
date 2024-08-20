@@ -5,6 +5,7 @@ import fr.spectr2155e.housepurchase.listeners.ClickDoor;
 import fr.spectr2155e.housepurchase.objects.minecraft.inventories.*;
 import fr.spectr2155e.housepurchase.region.listener.RegionListener;
 import fr.spectr2155e.housepurchase.region.manager.RegionManager;
+import fr.spectr2155e.housepurchase.systems.crochetage.CrochetageGUI;
 import org.bukkit.event.Listener;
 
 public class ListenerManager {
@@ -26,5 +27,6 @@ public class ListenerManager {
         createListener(new HouseGUITrustedUsers());
         createListener(new RegionListener(rm));
         createListener(new fr.spectr2155e.housepurchase.listeners.RegionListener());
+        createListener(new CrochetageGUI());
     }
 }

@@ -3,16 +3,19 @@ package fr.spectr2155e.housepurchase.listeners;
 import fr.spectr2155e.housepurchase.HousePurchase;
 import fr.spectr2155e.housepurchase.classes.Houses;
 import fr.spectr2155e.housepurchase.managers.ConfigHouseManager;
+import fr.spectr2155e.housepurchase.managers.DatabaseHouseManager;
 import fr.spectr2155e.housepurchase.managers.HousesManager;
 import fr.spectr2155e.housepurchase.objects.minecraft.inventories.HouseGUINotOwner;
 import fr.spectr2155e.housepurchase.objects.minecraft.inventories.HouseGUIOwnerBuy;
 import fr.spectr2155e.housepurchase.objects.minecraft.inventories.HouseGuiNotOwnerUnRegistered;
+import fr.spectr2155e.housepurchase.systems.crochetage.CrochetageGUI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.EquipmentSlot;
 
 public class ClickDoor implements Listener {
 
@@ -52,27 +55,39 @@ public class ClickDoor implements Listener {
                 return;
             }
 
-            // Vérification si la maison est priorisé par une personne
-            if(Houses.houses.get(Houses.getId(location)).isOwned()){
-
-                // Vérification si la porte est vérouillé
-                if(Houses.houses.get(Houses.getId(location)).isLocked()) {
+            if (((Houses)Houses.houses.get(Integer.valueOf(Houses.getId(location)))).isOwned()) {
+                if (e.getPlayer().isSneaking()) {
+                    if (e.getPlayer().getItemInHand().getType().equals(Material.FEATHER)) {
+                        if (e.getHand() == EquipmentSlot.HAND)
+                            return;
+                        if (((Houses)Houses.houses.get(Integer.valueOf(Houses.getId(location)))).isLocked()) {
+                            e.setCancelled(true);
+                            e.getPlayer().sendMessage("§8§l(§4§lErreur§8§l) §ccette porte est verouillé");
+                            if (((Houses)Houses.houses.get(Integer.valueOf(Houses.getId(location)))).getOwner().equals(e.getPlayer().getName()) || DatabaseHouseManager.getArrayFromJson(((Houses)Houses.houses.get(Integer.valueOf(Houses.getId(location)))).getTrustedPlayers()).contains(e.getPlayer().getName())) {
+                                e.getPlayer().sendMessage("§8§l(§4§lErreur§8§l) §cVous ne pouvez pas crocheter votre maison ainsi que celle ou vous y etes ajouté.");
+                                return;
+                            }
+                            (new CrochetageGUI()).openInventoryWithLocation(e.getPlayer(), location);
+                            return;
+                        }
+                        (new HouseGUIOwnerBuy()).openInventoryWithLocation(e.getPlayer(), location);
+                        e.setCancelled(true);
+                    } else {
+                        if (((Houses)Houses.houses.get(Integer.valueOf(Houses.getId(location)))).isLocked()) {
+                            e.setCancelled(true);
+                            e.getPlayer().sendMessage("§8§l(§6§lHousePurchase§8§l) §ccette porte est verouille");
+                        }
+                        (new HouseGUIOwnerBuy()).openInventoryWithLocation(e.getPlayer(), location);
+                        e.setCancelled(true);
+                    }
+                } else if (((Houses)Houses.houses.get(Integer.valueOf(Houses.getId(location)))).isLocked()) {
                     e.setCancelled(true);
-                    e.getPlayer().sendMessage("§cCette porte est verouillé");
-                }
-                if(e.getPlayer().isSneaking()) {
-
-                    // Ouverture du menu de Maison acheté
-                    new HouseGUIOwnerBuy().openInventoryWithLocation(e.getPlayer(), location);
-                    e.setCancelled(true);
+                    e.getPlayer().sendMessage("§8§l(§6§lHousePurchase§8§l) §ccette porte est verouille");
                 }
                 return;
             }
-
-            // Si la maison n'est pas priorisé et qu'elle a été créé
-            if(e.getPlayer().isSneaking()) {
-                // Ouverture du menu d'achat de maison
-                new HouseGUINotOwner().openInventoryWithLocation(e.getPlayer(), location);
+            if (e.getPlayer().isSneaking()) {
+                (new HouseGUINotOwner()).openInventoryWithLocation(e.getPlayer(), location);
                 e.setCancelled(true);
             }
         }
