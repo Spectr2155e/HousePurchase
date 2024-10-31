@@ -1,7 +1,0 @@
-name: HousePurchase
-version: '${version}'
-main: fr.spectr2155e.housepurchase.HousePurchase
-commands:
-  housepurchase:
-    aliases: house, houses
-    description: Commandes de HousePurchase
