@@ -48,6 +48,7 @@ public final class HousePurchase extends JavaPlugin {
         try {Houses.initHouses();} catch (ParseException e) {throw new RuntimeException(e);}
         HouseRegion.initRegions();
         LeaseHouse.initTimer();
+        a
         System.out.println("Plugin créé par Spectr2155e (HousePurchase) activé version "+ConfigManager.getVersion());
     }
 
